@@ -66,7 +66,7 @@ Todos os protótipos de interface (UI/UX) do sistema foram desenvolvidos no **Fi
 
 | Tela | Descrição | Preview | Link |
 |------|-----------|---------|------|
-| **Login** | Tela de autenticação com e-mail/senha, "lembrar-me" e login social | ![Login](./docs/prototipos/login.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=LOGIN) |
+| **Login** | Tela de autenticação com e-mail/senha, "lembrar-me" e login social | ![Login](./docs/prototipos/loginWeb.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=LOGIN) |
 | **Cadastro** | Formulário de criação de conta com validação | ![Cadastro](./docs/prototipos/cadastro.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=CADASTRO) |
 | **Recuperar Senha** | Fluxo de recuperação de senha por e-mail | ![Recuperar Senha](./docs/prototipos/recuperar-senha.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=RECUPERAR) |
 | **Home / Dashboard** | Painel principal após autenticação | ![Dashboard](./docs/prototipos/dashboard.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=DASHBOARD) |
