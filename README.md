@@ -1,8 +1,11 @@
-# [Nome do Projeto] — Frontend
+# CuidarVet — Frontend
 
 > Trabalho da disciplina de **Sistemas Web** — Interface frontend desenvolvida em React JS, integrada ao backend em Node.js desenvolvido pela outra metade do grupo.
 
 ![React](https://img.shields.io/badge/React-18.x-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-1.x-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
+![Figma](https://img.shields.io/badge/Figma-Produto%20%26%20UX-F24E1E?style=for-the-badge&logo=figma&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
 ---
@@ -11,6 +14,7 @@
 
 - [Sobre o Projeto](#-sobre-o-projeto)
 - [Funcionalidades](#-funcionalidades)
+- [Protótipos no Figma](#-protótipos-no-figma)
 - [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 - [Integração com o Backend](#-integração-com-o-backend)
 - [Pré-requisitos](#-pré-requisitos)
@@ -35,19 +39,129 @@ O objetivo é aplicar na prática os conceitos de:
 - Roteamento SPA (Single Page Application)
 - Boas práticas de organização de código frontend
 - Integração entre equipes (frontend x backend)
+- **Prototipagem de UI/UX antes da implementação**
 
 ---
 
 ## Funcionalidades
 
 - [x] Autenticação de usuários (login/cadastro) com JWT
-- [x] CRUD completo de [entidade principal]
-- [x] Listagem com paginação e filtros
-- [x] Rotas protegidas por autenticação
-- [x] Feedback visual (loading, toasts, erros)
-- [x] Layout responsivo
+- [ ] CRUD completo de [entidade principal]
+- [ ] Listagem com paginação e filtros
+- [ ] Rotas protegidas por autenticação
+- [ ] Feedback visual (loading, toasts, erros)
+- [ ] Layout responsivo
 - [ ] Dashboard com gráficos *(em desenvolvimento)*
 - [ ] Modo escuro *(planejado)*
+
+---
+
+## Protótipos no Figma
+
+Todos os protótipos de interface (UI/UX) do sistema foram desenvolvidos no **Figma** antes da implementação em React. Isso permite validar o fluxo de navegação, o layout e a experiência do usuário junto ao grupo de backend e aos stakeholders antes de partir para o código.
+
+> **Acesse o protótipo completo navegável:** [Clique aqui para abrir no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=0%3A1)
+
+### Telas prototipadas
+
+| Tela | Descrição | Preview | Link |
+|------|-----------|---------|------|
+| **Login** | Tela de autenticação com e-mail/senha, "lembrar-me" e login social | ![Login](./docs/prototipos/login.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=LOGIN) |
+| **Cadastro** | Formulário de criação de conta com validação | ![Cadastro](./docs/prototipos/cadastro.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=CADASTRO) |
+| **Recuperar Senha** | Fluxo de recuperação de senha por e-mail | ![Recuperar Senha](./docs/prototipos/recuperar-senha.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=RECUPERAR) |
+| **Home / Dashboard** | Painel principal após autenticação | ![Dashboard](./docs/prototipos/dashboard.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=DASHBOARD) |
+| **Listagem** | Tabela com paginação, filtros e busca | ![Listagem](./docs/prototipos/listagem.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=LISTAGEM) |
+| **Formulário de Cadastro/Edição** | Criação e edição de registros | ![Formulário](./docs/prototipos/formulario.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=FORMULARIO) |
+| **Perfil do Usuário** | Dados pessoais e preferências | ![Perfil](./docs/prototipos/perfil.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=PERFIL) |
+| **Configurações** | Ajustes do sistema | ![Configurações](./docs/prototipos/configuracoes.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=CONFIG) |
+| **404 / Erro** | Página de erro personalizada | ![404](./docs/prototipos/404.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=404) |
+
+### Prévia do protótipo (embed Figma)
+
+Você pode incorporar o protótipo interativo diretamente no README usando o iframe do Figma:
+
+```html
+<iframe
+  style="border: 1px solid rgba(0, 0, 0, 0.1);"
+  width="100%"
+  height="600"
+  src="https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto"
+  allowfullscreen
+></iframe>
+```
+
+Ou, se preferir uma imagem estática:
+
+```markdown
+![Protótipo completo do sistema](./docs/prototipos/prototipo-completo.png)
+```
+
+### Design System
+
+O projeto segue um **design system** definido no Figma, com:
+
+- **Cores primárias:** `#2563EB` (azul), `#10B981` (verde), `#EF4444` (vermelho)
+- **Tipografia:** Poppins (títulos) e Inter (corpo)
+- **Espaçamentos:** grid de 8px
+- **Componentes:** botões, inputs, cards, modais e toasts padronizados
+- **Modo claro e escuro:** previsto para versões futuras
+
+ **Acessar o Design System:** [Clique aqui](https://www.figma.com/file/SEU_FILE_ID/design-system)](https://www.figma.com/make/DOR2OQvmkfJ6au7zM4CWX4/Login-e-Cadastro-Veterin%C3%A1rio?t=8DK6f1eYUBbHVj7W-1)
+
+### Organização dos arquivos de protótipo no repositório
+
+Sugestão de estrutura para salvar as exportações do Figma dentro do projeto:
+
+```
+docs/
+└── prototipos/
+    ├── login.png
+    ├── cadastro.png
+    ├── recuperar-senha.png
+    ├── dashboard.png
+    ├── listagem.png
+    ├── formulario.png
+    ├── perfil.png
+    ├── configuracoes.png
+    ├── 404.png
+    └── prototipo-completo.png
+```
+
+> 💡 **Dica:** No Figma, use a opção **Export → PNG (2x)** para gerar imagens com boa resolução para o README.
+
+### Fluxo de navegação (User Flow)
+
+O protótipo interativo do Figma contempla o fluxo completo do usuário:
+
+```
+Login → Dashboard → Listagem → Formulário → Sucesso
+  ↓
+Cadastro → Confirmação de E-mail → Login
+  ↓
+Recuperar Senha → E-mail enviado → Redefinir Senha → Login
+```
+
+### ✅ Status dos protótipos
+
+- [x] Wireframes de baixa fidelidade
+- [x] Protótipos de alta fidelidade (desktop)
+- [ ] Protótipos de alta fidelidade (mobile)
+- [ ] Protótipo navegável (interativo)
+- [ ] Handoff para desenvolvimento (medidas, cores, fontes)
+- [ ] Testes de usabilidade com usuários
+- [ ] Versão final aprovada pelo grupo de backend
+
+### 🔎 Onde encontrar o File ID e o node-id
+
+**File ID** – na URL do projeto:
+
+```
+https://www.figma.com/file/AbC123XyZ456/Nome-do-Projeto
+                          ^^^^^^^^^^^
+                          Este é o File ID
+```
+
+**node-id** – clique com o botão direito em um frame específico no Figma → **Copy link to selection**. O link conterá algo como `?node-id=123%3A456`. Use esse valor no parâmetro `node-id`.
 
 ---
 
@@ -62,6 +176,7 @@ O objetivo é aplicar na prática os conceitos de:
 | [Styled Components](https://styled-components.com/) / [Tailwind](https://tailwindcss.com/) | — | Estilização |
 | [Context API](https://react.dev/reference/react/useContext) | — | Gerenciamento de estado global |
 | [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/) | — | Padronização de código |
+| [Figma](https://www.figma.com/) | — | Prototipagem e Design System |
 
 ---
 
@@ -69,9 +184,9 @@ O objetivo é aplicar na prática os conceitos de:
 
 Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js**.
 
-- **Repositório do Backend:** [🔗 link-do-repositorio-backend](https://github.com/usuario/repo-backend)
+- **Repositório do Backend:** [ link-do-repositorio-backend](https://github.com/usuario/repo-backend](https://github.com/vitormsantos1/React.Node-backend))
 - **URL base da API (dev):** `http://localhost:3000/api`
-- **Documentação da API:** [🔗 Swagger/Postman](https://link-da-doc)
+- **Documentação da API:** [ Swagger/Postman](https://link-da-doc)
 
 ### Endpoints principais consumidos
 
@@ -129,7 +244,7 @@ VITE_API_URL=http://localhost:3000/api
 VITE_APP_NAME=Nome do Projeto
 ```
 
-> 📌 Existe um arquivo `.env.example` no repositório como referência. **Nunca** versione o arquivo `.env` real.
+> Existe um arquivo `.env.example` no repositório como referência. **Nunca** versione o arquivo `.env` real.
 
 ---
 
@@ -163,6 +278,8 @@ npm run preview
 
 ```
 nome-do-projeto-frontend/
+├── docs/                   # Documentação e protótipos
+│   └── prototipos/         # Exportações das telas do Figma
 ├── public/
 ├── src/
 │   ├── assets/             # Imagens, ícones, fontes
@@ -260,7 +377,7 @@ export default function ListaUsuarios() {
 ### Grupo de Frontend
 | Nome | GitHub | Função |
 |------|--------|--------|
-| Gabriela Almeida | [@gabriela-data](https://github.com/gabriela-data) | Desenvolvedor(a) Frontend |
+| [Gabriela Almeida] | [@gabriela-data](https://github.com/usuario1](https://github.com/gabriela-data)) | Desenvolvedor(a) Frontend |
 | [Nome 2] | [@usuario2](https://github.com/usuario2) | Desenvolvedor(a) Frontend |
 | [Nome 3] | [@usuario3](https://github.com/usuario3) | Desenvolvedor(a) Frontend |
 
@@ -269,7 +386,7 @@ export default function ListaUsuarios() {
 |------|--------|
 | [Nome 1] | [@usuario1](https://github.com/usuario1) |
 | [Nome 2] | [@usuario2](https://github.com/usuario2) |
-
+| [Nome 3] | [@usuario3](https://github.com/usuario3) |
 ---
 
 ## Contribuindo
@@ -291,7 +408,10 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## Referências
 
 - [Documentação React](https://react.dev/)
+- [Documentação Vite](https://vitejs.dev/)
+- [Documentação Axios](https://axios-http.com/)
 - [Repositório do Backend](https://github.com/usuario/repo-backend)
+- [Protótipo no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto)
 
 ---
 
