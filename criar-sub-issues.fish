@@ -1,8 +1,8 @@
 #!/usr/bin/env fish
 
 # ============================================================
-# Cria as sub-issues das issues #2 e #3 (Fase Setup)
-# Uso: fish criar-sub-issues.fish
+# Cria sub-issues com delay para evitar race condition
+# Uso: fish criar-sub-issues-v2.fish
 # ============================================================
 
 set -l GREEN (set_color green)
@@ -11,72 +11,99 @@ set -l YELLOW (set_color yellow)
 set -l RED (set_color red)
 set -l NC (set_color normal)
 
-# ---------- CONFIGURAÇÃO ----------
 set OWNER "gabriela-data"
 set REPO "reactjs"
 set PROJECT_NUMBER 3
 set PARENT_1_NUM 2
 set PARENT_2_NUM 3
 
-# ---------- VERIFICAÇÕES ----------
 if not command -v gh >/dev/null
     echo -e "$RED GitHub CLI nao instalado.$NC"
     exit 1
 end
 
 echo -e "$BLUE============================================$NC"
-echo -e "$BLUE  Criando sub-issues                      $NC"
+echo -e "$BLUE  Criando sub-issues (v2 - com delay)       $NC"
 echo -e "$BLUE============================================$NC\n"
 
-# ---------- FUNÇÃO: CRIAR SUB-ISSUE ----------
 function nova_sub --argument-names parent_num titulo labels body
     echo -e "$BLUE  -> $titulo$NC"
-    
+
     set -l tmp_file (mktemp)
     echo "$body" > $tmp_file
-    
+
     set -l url (gh issue create \
         --repo $OWNER/$REPO \
         --title "$titulo" \
         --body-file $tmp_file \
         --label "$labels" 2>&1)
-    
+
     rm -f $tmp_file
-    
+
     if not string match -q "*github.com*" -- $url
         echo -e "$RED     ERRO: $url$NC"
         return
     end
-    
+
     set -l num (basename $url)
     echo -e "$GREEN     criada: #$num$NC"
-    
+
+    # === DELAY CRITICO ===
+    # Espera 3 segundos para o GitHub indexar a issue antes de tentar vincula-la
+    echo -e "$YELLOW     aguardando indexacao...$NC"
+    sleep 3
+
     # Adiciona ao board
     gh project item-add $PROJECT_NUMBER --owner $OWNER \
         --url "https://github.com/$OWNER/$REPO/issues/$num" >/dev/null 2>&1
-    
-    # Vincula como sub-issue
-    set -l child_id (gh api repos/$OWNER/$REPO/issues/$num --jq .id 2>/dev/null)
-    
-    if test -n "$child_id"
+
+    # Obtem o database ID com retry
+    set -l child_id ""
+    for tentativa in 1 2 3
+        set child_id (gh api repos/$OWNER/$REPO/issues/$num --jq '.id' 2>/dev/null)
+        if test -n "$child_id"
+            break
+        end
+        echo -e "$YELLOW     retry $tentativa para obter ID...$NC"
+        sleep 2
+    end
+
+    if test -z "$child_id"
+        echo -e "$YELLOW     nao foi possivel obter ID$NC"
+        echo $num
+        return
+    end
+
+    # Vincula como sub-issue com retry
+    set -l vinculada false
+    for tentativa in 1 2 3
         set -l result (gh api \
             repos/$OWNER/$REPO/issues/$parent_num/sub_issues \
             --method POST \
-            -f sub_issue_id=$child_id 2>&1)
-        
-        if string match -q "*sub_issue*" -- $result
+            -F sub_issue_id=$child_id 2>&1)
+
+        if not string match -q "*Gone*" -- $result
+            and not string match -q "*error*" -- $result
+            and not string match -q "*404*" -- $result
             echo -e "$GREEN     vinculada a #$parent_num$NC"
-        else
-            echo -e "$YELLOW     criada mas nao vinculada automaticamente$NC"
-            echo -e "$YELLOW     Vincule manualmente em Parent issue$NC"
+            set vinculada true
+            break
         end
+
+        echo -e "$YELLOW     retry $tentativa para vincular...$NC"
+        sleep 3
     end
-    
+
+    if test "$vinculada" = false
+        echo -e "$YELLOW     nao foi possivel vincular automaticamente$NC"
+        echo -e "$YELLOW     Vincule manualmente: #$num -> #$parent_num$NC"
+    end
+
     echo $num
 end
 
 # ============================================================
-# SUB-ISSUES DA ISSUE #2 — "Inicializar projeto"
+# SUB-ISSUES DA ISSUE #2
 # ============================================================
 echo -e "$YELLOW Sub-issues de #$PARENT_1_NUM$NC\n"
 
@@ -182,7 +209,7 @@ Criar o repositorio no GitHub e conectar o projeto local.
 
 set S5 (nova_sub $PARENT_1_NUM \
     "[SUB] Fazer primeiro commit e push de toda a equipe" \
-    "setup,prioridade-média" \
+    "setup,prioridade-media" \
     "## Objetivo
 Garantir que o fluxo de commits esta funcionando para toda a equipe.
 
@@ -207,7 +234,7 @@ Garantir que o fluxo de commits esta funcionando para toda a equipe.
 
 set S6 (nova_sub $PARENT_1_NUM \
     "[SUB] Escrever secao de instalacao no README" \
-    "docs,prioridade-média" \
+    "docs,prioridade-media" \
     "## Objetivo
 Escrever a secao de instalacao do README.
 
@@ -231,14 +258,14 @@ Escrever a secao de instalacao do README.
 2 horas")
 
 # ============================================================
-# SUB-ISSUES DA ISSUE #3 — "Dependencias base"
+# SUB-ISSUES DA ISSUE #3
 # ============================================================
 echo ""
 echo -e "$YELLOW Sub-issues de #$PARENT_2_NUM$NC\n"
 
 set S7 (nova_sub $PARENT_2_NUM \
     "[SUB] Instalar e configurar React Router DOM" \
-    "setup,integração,prioridade-alta" \
+    "setup,integracao,prioridade-alta" \
     "## Objetivo
 Instalar e configurar o React Router DOM para navegacao entre paginas.
 
@@ -266,7 +293,7 @@ Instalar e configurar o React Router DOM para navegacao entre paginas.
 
 set S8 (nova_sub $PARENT_2_NUM \
     "[SUB] Instalar e configurar Axios" \
-    "setup,integração,prioridade-alta" \
+    "setup,integracao,prioridade-alta" \
     "## Objetivo
 Instalar e configurar o Axios para chamadas HTTP.
 
@@ -355,7 +382,7 @@ Instalar React Hook Form + Zod para validacao de formularios.
 
 set S11 (nova_sub $PARENT_2_NUM \
     "[SUB] Instalar e configurar biblioteca de notificacoes" \
-    "setup,prioridade-média" \
+    "setup,prioridade-media" \
     "## Objetivo
 Instalar biblioteca de notificacoes (toasts).
 
@@ -382,7 +409,7 @@ Instalar biblioteca de notificacoes (toasts).
 
 set S12 (nova_sub $PARENT_2_NUM \
     "[SUB] Configurar ESLint e Prettier" \
-    "setup,prioridade-média" \
+    "setup,prioridade-media" \
     "## Objetivo
 Configurar ESLint e Prettier para padronizar o codigo.
 
@@ -415,7 +442,7 @@ Configurar ESLint e Prettier para padronizar o codigo.
 # ============================================================
 echo ""
 echo -e "$GREEN============================================$NC"
-echo -e "$GREEN  Sub-issues criadas!$NC"
+echo -e "$GREEN  Sub-issues criadas e vinculadas!$NC"
 echo -e "$GREEN============================================$NC"
 echo ""
 echo -e "$BLUE Board:  https://github.com/users/$OWNER/projects/$PROJECT_NUMBER$NC"
@@ -428,3 +455,4 @@ echo "   Carla  -> $S3 e $S9"
 echo "   Diego  -> $S4 e $S10"
 echo "   Elena  -> $S5 e $S11"
 echo "   Felipe -> $S6 e $S12"
+echo ""
