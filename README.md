@@ -12,24 +12,25 @@
 
 ## Sumário
 
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [Funcionalidades](#-funcionalidades)
-- [Protótipos no Figma](#-protótipos-no-figma)
-- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [Integração com o Backend](#-integração-com-o-backend)
-- [Pré-requisitos](#-pré-requisitos)
-- [Instalação](#-instalação)
-- [Configuração de Variáveis de Ambiente](#-configuração-de-variáveis-de-ambiente)
-- [Executando o Projeto](#-executando-o-projeto)
-- [Estrutura de Pastas](#-estrutura-de-pastas)
-- [Scripts Disponíveis](#-scripts-disponíveis)
-- [Consumo da API](#-consumo-da-api)
-- [Equipe](#-equipe)
-- [Licença](#-licença)
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Funcionalidades](#funcionalidades)
+- [Protótipos no Figma](#prototipos-no-figma)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Integração com o Backend](#integração-com-o-backend)
+- [Pré-requisitos](#pre-requisitos)
+- [Instalação](#instalacao)
+- [Configuração de Variáveis de Ambiente](#configuracao-de-variaveis-de-ambiente)
+- [Executando o Projeto](#executando-o-projeto)
+- [Estrutura de Pastas](#estrutura-de-pastas)
+- [Scripts Disponíveis](#scripts-disponiveis)
+- [Consumo da API](#consumo-da-api)
+- [Equipe](#equipe)
+- [Licença](#licença)
+- [Referências](#referencias)
 
 ---
 
-## Sobre o Projeto
+## Sobre o Projeto {#sobre-o-projeto}
 
 Este repositório contém a **aplicação frontend** desenvolvida em **React JS** como parte do trabalho da disciplina de **Sistemas Web**. O projeto é desenvolvido em conjunto com outro grupo responsável pelo **backend em Node.js**, seguindo a arquitetura **cliente-servidor** com comunicação via **API REST**.
 
@@ -43,7 +44,7 @@ O objetivo é aplicar na prática os conceitos de:
 
 ---
 
-## Funcionalidades
+## Funcionalidades {#funcionalidades}
 
 - [x] Autenticação de usuários (login/cadastro) com JWT
 - [ ] CRUD completo de [entidade principal]
@@ -56,7 +57,7 @@ O objetivo é aplicar na prática os conceitos de:
 
 ---
 
-## Protótipos no Figma
+## Protótipos no Figma {#prototipos-no-figma}
 
 Todos os protótipos de interface (UI/UX) do sistema foram desenvolvidos no **Figma** antes da implementação em React. Isso permite validar o fluxo de navegação, o layout e a experiência do usuário junto ao grupo de backend e aos stakeholders antes de partir para o código.
 
@@ -165,7 +166,7 @@ https://www.figma.com/file/AbC123XyZ456/Nome-do-Projeto
 
 ---
 
-## Tecnologias Utilizadas
+## Tecnologias Utilizadas {#tecnologias-utilizadas}
 
 | Tecnologia | Versão | Descrição |
 |-----------|--------|-----------|
@@ -180,7 +181,7 @@ https://www.figma.com/file/AbC123XyZ456/Nome-do-Projeto
 
 ---
 
-## Integração com o Backend
+## Integração com o Backend {#integração-com-o-backend}
 
 Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js**.
 
@@ -203,7 +204,7 @@ Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js
 
 ---
 
-## Pré-requisitos
+## Pré-requisitos {#pre-requisitos}
 
 Antes de começar, você precisa ter instalado em sua máquina:
 
@@ -214,7 +215,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
 
 ---
 
-## Instalação
+## Instalação {#instalacao}
 
 1. **Clone o repositório:**
    ```bash
@@ -235,7 +236,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
 
 ---
 
-## Configuração de Variáveis de Ambiente
+## Configuração de Variáveis de Ambiente {#configuracao-de-variaveis-de-ambiente}
 
 Crie um arquivo `.env` na raiz do projeto com base no exemplo abaixo:
 
@@ -248,7 +249,7 @@ VITE_APP_NAME=Nome do Projeto
 
 ---
 
-## Executando o Projeto
+## Executando o Projeto {#executando-o-projeto}
 
 ### Modo desenvolvimento
 
@@ -274,7 +275,7 @@ npm run preview
 
 ---
 
-## Estrutura de Pastas
+## Estrutura de Pastas {#estrutura-de-pastas}
 
 ```
 nome-do-projeto-frontend/
@@ -311,7 +312,7 @@ nome-do-projeto-frontend/
 
 ---
 
-## Scripts Disponíveis
+## Scripts Disponíveis {#scripts-disponiveis}
 
 | Script | Descrição |
 |--------|-----------|
@@ -323,7 +324,7 @@ nome-do-projeto-frontend/
 
 ---
 
-## Consumo da API
+## Consumo da API {#consumo-da-api}
 
 Exemplo de configuração do Axios em `src/services/api.js`:
 
@@ -372,7 +373,7 @@ export default function ListaUsuarios() {
 
 ---
 
-## Equipe
+## Equipe {#equipe}
 
 ### Grupo de Frontend
 | Nome | GitHub | Função |
@@ -399,13 +400,13 @@ export default function ListaUsuarios() {
 
 ---
 
-## Licença
+## Licença {#licença}
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
-## Referências
+## Referências {#referencias}
 
 - [Documentação React](https://react.dev/)
 - [Documentação Vite](https://vitejs.dev/)
