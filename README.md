@@ -30,7 +30,7 @@
 
 ---
 
-## Sobre o Projeto {#sobre-o-projeto}
+## Sobre o Projeto 
 
 Este repositório contém a **aplicação frontend** desenvolvida em **React JS** como parte do trabalho da disciplina de **Sistemas Web**. O projeto é desenvolvido em conjunto com outro grupo responsável pelo **backend em Node.js**, seguindo a arquitetura **cliente-servidor** com comunicação via **API REST**.
 
@@ -44,7 +44,7 @@ O objetivo é aplicar na prática os conceitos de:
 
 ---
 
-## Funcionalidades {#funcionalidades}
+## Funcionalidades 
 
 - [x] Autenticação de usuários (login/cadastro) com JWT
 - [ ] CRUD completo de [entidade principal]
@@ -57,7 +57,7 @@ O objetivo é aplicar na prática os conceitos de:
 
 ---
 
-## Prototipos no Figma {#prototipos-no-figma}
+## Prototipos no Figma
 
 Todos os protótipos de interface (UI/UX) do sistema foram desenvolvidos no **Figma** antes da implementação em React. Isso permite validar o fluxo de navegação, o layout e a experiência do usuário junto ao grupo de backend e aos stakeholders antes de partir para o código.
 
@@ -166,7 +166,7 @@ https://www.figma.com/file/AbC123XyZ456/Nome-do-Projeto
 
 ---
 
-## Tecnologias Utilizadas {#tecnologias-utilizadas}
+## Tecnologias Utilizadas 
 
 | Tecnologia | Versão | Descrição |
 |-----------|--------|-----------|
@@ -181,7 +181,7 @@ https://www.figma.com/file/AbC123XyZ456/Nome-do-Projeto
 
 ---
 
-## Integracao com o Backend {#integracao-com-o-backend}
+## Integracao com o Backend 
 
 Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js**.
 
@@ -204,7 +204,7 @@ Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js
 
 ---
 
-## Pre-requisitos {#pre-requisitos}
+## Pre-requisitos 
 
 Antes de começar, você precisa ter instalado em sua máquina:
 
@@ -215,7 +215,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
 
 ---
 
-## Instalacao {#instalacao}
+## Instalacao 
 
 1. **Clone o repositório:**
    ```bash
@@ -249,7 +249,7 @@ VITE_APP_NAME=Nome do Projeto
 
 ---
 
-## Executando o Projeto {#executando-o-projeto}
+## Executando o Projeto 
 
 ### Modo desenvolvimento
 
@@ -275,7 +275,7 @@ npm run preview
 
 ---
 
-## Estrutura de Pastas {#estrutura-de-pastas}
+## Estrutura de Pastas 
 
 ```
 nome-do-projeto-frontend/
@@ -312,7 +312,7 @@ nome-do-projeto-frontend/
 
 ---
 
-## Scripts Disponiveis {#scripts-disponiveis}
+## Scripts Disponiveis
 
 | Script | Descrição |
 |--------|-----------|
@@ -324,7 +324,7 @@ nome-do-projeto-frontend/
 
 ---
 
-## Consumo da API {#consumo-da-api}
+## Consumo da API 
 
 Exemplo de configuração do Axios em `src/services/api.js`:
 
@@ -373,7 +373,7 @@ export default function ListaUsuarios() {
 
 ---
 
-## Equipe {#equipe}
+## Equipe 
 
 ### Grupo de Frontend
 | Nome | GitHub | Função |
@@ -400,13 +400,13 @@ export default function ListaUsuarios() {
 
 ---
 
-## Licenca {#licenca}
+## Licenca 
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
-## Referencias {#referencias}
+## Referencias 
 
 - [Documentação React](https://react.dev/)
 - [Documentação Vite](https://vitejs.dev/)
