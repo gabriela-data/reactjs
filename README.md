@@ -10,7 +10,7 @@
 
 ---
 
-## Sumário
+## Sumario
 
 - [Sobre o Projeto](#sobre-o-projeto)
 - [Funcionalidades](#funcionalidades)
@@ -57,7 +57,7 @@ O objetivo é aplicar na prática os conceitos de:
 
 ---
 
-## Protótipos no Figma {#prototipos-no-figma}
+## Prototipos no Figma {#prototipos-no-figma}
 
 Todos os protótipos de interface (UI/UX) do sistema foram desenvolvidos no **Figma** antes da implementação em React. Isso permite validar o fluxo de navegação, o layout e a experiência do usuário junto ao grupo de backend e aos stakeholders antes de partir para o código.
 
@@ -181,7 +181,7 @@ https://www.figma.com/file/AbC123XyZ456/Nome-do-Projeto
 
 ---
 
-## Integração com o Backend {#integração-com-o-backend}
+## Integracao com o Backend {#integracao-com-o-backend}
 
 Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js**.
 
@@ -204,7 +204,7 @@ Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js
 
 ---
 
-## Pré-requisitos {#pre-requisitos}
+## Pre-requisitos {#pre-requisitos}
 
 Antes de começar, você precisa ter instalado em sua máquina:
 
@@ -215,7 +215,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
 
 ---
 
-## Instalação {#instalacao}
+## Instalacao {#instalacao}
 
 1. **Clone o repositório:**
    ```bash
@@ -236,7 +236,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
 
 ---
 
-## Configuração de Variáveis de Ambiente {#configuracao-de-variaveis-de-ambiente}
+## Configuracao de Variaveis de Ambiente {#configuracao-de-variaveis-de-ambiente}
 
 Crie um arquivo `.env` na raiz do projeto com base no exemplo abaixo:
 
@@ -312,7 +312,7 @@ nome-do-projeto-frontend/
 
 ---
 
-## Scripts Disponíveis {#scripts-disponiveis}
+## Scripts Disponiveis {#scripts-disponiveis}
 
 | Script | Descrição |
 |--------|-----------|
@@ -400,13 +400,13 @@ export default function ListaUsuarios() {
 
 ---
 
-## Licença {#licença}
+## Licenca {#licenca}
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
-## Referências {#referencias}
+## Referencias {#referencias}
 
 - [Documentação React](https://react.dev/)
 - [Documentação Vite](https://vitejs.dev/)
