@@ -77,25 +77,6 @@ Todos os protótipos de interface (UI/UX) do sistema foram desenvolvidos no **Fi
 | **Configurações** | Ajustes do sistema | ![Configurações](./docs/prototipos/configuracoes.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=CONFIG) |
 | **404 / Erro** | Página de erro personalizada | ![404](./docs/prototipos/404.png) | [Ver no Figma](https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto?node-id=404) |
 
-### Prévia do protótipo (embed Figma)
-
-Você pode incorporar o protótipo interativo diretamente no README usando o iframe do Figma:
-
-```html
-<iframe
-  style="border: 1px solid rgba(0, 0, 0, 0.1);"
-  width="100%"
-  height="600"
-  src="https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/file/SEU_FILE_ID/nome-do-projeto"
-  allowfullscreen
-></iframe>
-```
-
-Ou, se preferir uma imagem estática:
-
-```markdown
-![Protótipo completo do sistema](./docs/prototipos/prototipo-completo.png)
-```
 
 ### Design System
 
@@ -111,9 +92,6 @@ O projeto segue um **design system** definido no Figma, com:
 
 ### Organização dos arquivos de protótipo no repositório
 
-Sugestão de estrutura para salvar as exportações do Figma dentro do projeto:
-
-```
 docs/
 └── prototipos/
     ├── login.png
@@ -128,7 +106,6 @@ docs/
     └── prototipo-completo.png
 ```
 
-> 💡 **Dica:** No Figma, use a opção **Export → PNG (2x)** para gerar imagens com boa resolução para o README.
 
 ### Fluxo de navegação (User Flow)
 
@@ -152,19 +129,6 @@ Recuperar Senha → E-mail enviado → Redefinir Senha → Login
 - [ ] Testes de usabilidade com usuários
 - [ ] Versão final aprovada pelo grupo de backend
 
-### 🔎 Onde encontrar o File ID e o node-id
-
-**File ID** – na URL do projeto:
-
-```
-https://www.figma.com/file/AbC123XyZ456/Nome-do-Projeto
-                          ^^^^^^^^^^^
-                          Este é o File ID
-```
-
-**node-id** – clique com o botão direito em um frame específico no Figma → **Copy link to selection**. O link conterá algo como `?node-id=123%3A456`. Use esse valor no parâmetro `node-id`.
-
----
 
 ## Tecnologias Utilizadas 
 
@@ -236,7 +200,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
 
 ---
 
-## Configuracao de Variaveis de Ambiente {#configuracao-de-variaveis-de-ambiente}
+## Configuracao de Variaveis de Ambiente
 
 Crie um arquivo `.env` na raiz do projeto com base no exemplo abaixo:
 
