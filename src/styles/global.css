@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #2563EB;
+  --color-success: #10B981;
+  --color-danger:  #EF4444;
+
+  --font-title: "Poppins", sans-serif;
+  --font-body:  "Inter", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-title);
+  font-weight: 600;
+}
