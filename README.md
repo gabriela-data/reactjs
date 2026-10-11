@@ -2,6 +2,40 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
+## Configuracao local
+
+O projeto requer Node.js 22 e npm 10 ou superior.
+
+1. Instale as dependencias com `npm ci`.
+2. Copie `.env.example` para `.env`.
+3. Ajuste `VITE_API_URL` para o endereco da API.
+4. Inicie o projeto com `npm run dev`.
+
+Exemplo de configuracao:
+
+```env
+VITE_API_URL=http://localhost:3000/api
+VITE_APP_NAME=VetClinic
+```
+
+O arquivo `.env` contem configuracoes locais e nao deve ser versionado. O
+`.env.example` documenta as variaveis necessarias sem armazenar segredos.
+
+## Cliente HTTP
+
+O cliente Axios compartilhado fica em `src/services/api.js`. Ele usa a URL de
+`VITE_API_URL`, aplica timeout de 10 segundos e envia automaticamente o token
+salvo em `@vet:token` no cabecalho `Authorization`.
+
+```js
+import api from './services/api';
+
+const { data } = await api.get('/exemplo');
+```
+
+Respostas `401` ou `403` removem os dados de autenticacao persistidos e
+redirecionam o usuario para `/login`.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
