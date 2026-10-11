@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { Lock, Mail } from 'lucide-react'
+import Input from '../../components/Input'
 import { useAuth } from '../../contexts/AuthContext'
 
 export default function Login() {
@@ -26,18 +28,26 @@ export default function Login() {
       >
         <h1 className="text-2xl font-bold text-primary">CuidarVet 🐾</h1>
 
-        <input
+        <Input
+          id="email"
+          label="E-mail"
+          type="email"
           placeholder="E-mail"
-          {...register('email', { required: true })}
-          className="w-full border p-2 rounded"
+          icon={Mail}
+          error={errors.email?.message}
+          autoComplete="email"
+          {...register('email', { required: 'Obrigatório' })}
         />
-        {errors.email && <span className="text-danger text-sm">Obrigatório</span>}
 
-        <input
+        <Input
+          id="senha"
+          label="Senha"
           type="password"
           placeholder="Senha"
-          {...register('senha', { required: true })}
-          className="w-full border p-2 rounded"
+          icon={Lock}
+          error={errors.senha?.message}
+          autoComplete="current-password"
+          {...register('senha', { required: 'Obrigatório' })}
         />
 
         <button
