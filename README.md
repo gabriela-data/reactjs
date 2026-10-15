@@ -100,6 +100,18 @@ Currently, two official plugins are available:
 
 The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the Oxlint configuration
+## Padroes de codigo
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+O ESLint verifica JavaScript, JSX, React Hooks e compatibilidade com Fast
+Refresh. O Prettier formata o projeto com ponto e virgula, aspas simples,
+indentacao de dois espacos e trailing commas no padrao ES5. O
+`eslint-config-prettier` desativa regras de lint que poderiam conflitar com a
+formatacao.
+
+```bash
+npm run lint          # verifica o codigo com ESLint
+npm run lint:fix      # corrige automaticamente o que for possivel
+npm run lint:fast     # verificacao adicional e rapida com Oxlint
+npm run format        # formata os arquivos com Prettier
+npm run format:check  # verifica a formatacao sem alterar arquivos
+```

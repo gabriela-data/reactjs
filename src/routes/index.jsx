@@ -1,6 +1,6 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import Login from '../pages/Login'
-import NotFound from '../pages/NotFound'
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Login from '../pages/Login';
+import NotFound from '../pages/NotFound';
 
 export default function AppRoutes() {
   return (
@@ -10,5 +10,5 @@ export default function AppRoutes() {
       <Route path="/404" element={<NotFound />} />
       <Route path="*" element={<Navigate to="/404" replace />} />
     </Routes>
-  )
+  );
 }

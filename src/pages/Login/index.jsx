@@ -1,11 +1,11 @@
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate } from 'react-router-dom'
-import { Lock, Mail } from 'lucide-react'
-import Input from '../../components/Input'
-import { useAuth } from '../../contexts/AuthContext'
-import { notify } from '../../services/notification'
-import loginSchema from '../../schemas/loginSchema'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from 'react-router-dom';
+import { Lock, Mail } from 'lucide-react';
+import Input from '../../components/Input';
+import { useAuth } from '../../contexts/auth';
+import { notify } from '../../services/notification';
+import loginSchema from '../../schemas/loginSchema';
 
 export default function Login() {
   const {
@@ -19,19 +19,19 @@ export default function Login() {
       email: '',
       senha: '',
     },
-  })
-  const { login } = useAuth()
-  const navigate = useNavigate()
+  });
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      await login(data.email, data.senha)
-      notify.success('Bem-vindo(a)!')
-      navigate('/dashboard')
+      await login(data.email, data.senha);
+      notify.success('Bem-vindo(a)!');
+      navigate('/dashboard');
     } catch {
-      notify.error('E-mail ou senha inválidos')
+      notify.error('E-mail ou senha inválidos');
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -72,5 +72,5 @@ export default function Login() {
         </button>
       </form>
     </div>
-  )
+  );
 }

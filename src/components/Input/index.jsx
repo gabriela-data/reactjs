@@ -1,5 +1,5 @@
-import { forwardRef, useId, useState } from 'react'
-import { Eye, EyeOff } from 'lucide-react'
+import { forwardRef, useId, useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 
 const Input = forwardRef(function Input(
   {
@@ -15,18 +15,22 @@ const Input = forwardRef(function Input(
   },
   ref
 ) {
-  const generatedId = useId()
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
-  const inputId = id ?? props.name ?? generatedId
-  const errorId = error ? `${inputId}-error` : undefined
-  const isPassword = type === 'password'
-  const inputType = isPassword && isPasswordVisible ? 'text' : type
-  const describedBy = [ariaDescribedBy, errorId].filter(Boolean).join(' ') || undefined
+  const generatedId = useId();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const inputId = id ?? props.name ?? generatedId;
+  const errorId = error ? `${inputId}-error` : undefined;
+  const isPassword = type === 'password';
+  const inputType = isPassword && isPasswordVisible ? 'text' : type;
+  const describedBy =
+    [ariaDescribedBy, errorId].filter(Boolean).join(' ') || undefined;
 
   return (
     <div className={`space-y-1.5 ${className}`}>
       {label && (
-        <label htmlFor={inputId} className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor={inputId}
+          className="block text-sm font-medium text-gray-700"
+        >
           {label}
         </label>
       )}
@@ -38,7 +42,12 @@ const Input = forwardRef(function Input(
             : 'border-gray-300 focus-within:border-primary focus-within:ring-primary/20'
         } ${disabled ? 'cursor-not-allowed bg-gray-100 opacity-70' : ''}`}
       >
-        {Icon && <Icon aria-hidden="true" className="ml-3 size-5 shrink-0 text-gray-400" />}
+        {Icon && (
+          <Icon
+            aria-hidden="true"
+            className="ml-3 size-5 shrink-0 text-gray-400"
+          />
+        )}
 
         <input
           {...props}
@@ -75,7 +84,7 @@ const Input = forwardRef(function Input(
         </p>
       )}
     </div>
-  )
-})
+  );
+});
 
-export default Input
+export default Input;
