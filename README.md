@@ -36,6 +36,43 @@ const { data } = await api.get('/exemplo');
 Respostas `401` ou `403` removem os dados de autenticacao persistidos e
 redirecionam o usuario para `/login`.
 
+## Formularios e validacao
+
+Os formularios usam React Hook Form com schemas Zod conectados pelo
+`zodResolver`. O schema deve ficar separado do componente para que as regras
+possam ser reutilizadas e testadas isoladamente.
+
+```js
+import { z } from 'zod';
+
+const exemploSchema = z.object({
+  nome: z.string().min(3, 'O nome deve ter pelo menos 3 caracteres'),
+  email: z.string().email('Informe um e-mail valido'),
+});
+```
+
+No componente, passe o schema ao `useForm` e mostre a mensagem correspondente
+ao campo:
+
+```jsx
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useForm({ resolver: zodResolver(exemploSchema) });
+
+<form onSubmit={handleSubmit(console.log)}>
+  <input {...register('nome')} />
+  {errors.nome && <span>{errors.nome.message}</span>}
+</form>;
+```
+
+O login em `src/pages/Login` e o schema em `src/schemas/loginSchema.js`
+servem como implementacao funcional de referencia.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)

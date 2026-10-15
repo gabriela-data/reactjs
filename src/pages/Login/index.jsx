@@ -1,12 +1,25 @@
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { Lock, Mail } from 'lucide-react'
 import Input from '../../components/Input'
 import { useAuth } from '../../contexts/AuthContext'
+import loginSchema from '../../schemas/loginSchema'
 
 export default function Login() {
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      email: '',
+      senha: '',
+    },
+  })
   const { login } = useAuth()
   const navigate = useNavigate()
 
@@ -24,6 +37,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form
         onSubmit={handleSubmit(onSubmit)}
+        noValidate
         className="bg-white p-8 rounded-xl shadow-md w-96 space-y-4"
       >
         <h1 className="text-2xl font-bold text-primary">CuidarVet 🐾</h1>
@@ -36,7 +50,7 @@ export default function Login() {
           icon={Mail}
           error={errors.email?.message}
           autoComplete="email"
-          {...register('email', { required: 'Obrigatório' })}
+          {...register('email')}
         />
 
         <Input
@@ -47,7 +61,7 @@ export default function Login() {
           icon={Lock}
           error={errors.senha?.message}
           autoComplete="current-password"
-          {...register('senha', { required: 'Obrigatório' })}
+          {...register('senha')}
         />
 
         <button
