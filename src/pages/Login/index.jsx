@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
-import toast from 'react-hot-toast'
 import { Lock, Mail } from 'lucide-react'
 import Input from '../../components/Input'
 import { useAuth } from '../../contexts/AuthContext'
+import { notify } from '../../services/notification'
 import loginSchema from '../../schemas/loginSchema'
 
 export default function Login() {
@@ -26,10 +26,10 @@ export default function Login() {
   const onSubmit = async (data) => {
     try {
       await login(data.email, data.senha)
-      toast.success('Bem-vindo(a)!')
+      notify.success('Bem-vindo(a)!')
       navigate('/dashboard')
     } catch {
-      toast.error('E-mail ou senha inválidos')
+      notify.error('E-mail ou senha inválidos')
     }
   }
 

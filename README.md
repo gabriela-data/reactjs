@@ -73,6 +73,24 @@ const {
 O login em `src/pages/Login` e o schema em `src/schemas/loginSchema.js`
 servem como implementacao funcional de referencia.
 
+## Notificacoes
+
+Use a API centralizada de `src/services/notification.js` para manter o visual e
+o tempo de exibicao consistentes. Ela oferece notificacoes de sucesso, erro,
+aviso e informacao, com fila gerenciada pelo `Toaster` global.
+
+```js
+import { notify } from './services/notification';
+
+notify.success('Registro salvo!');
+notify.error('Nao foi possivel salvar.');
+notify.warning('Revise os dados informados.');
+notify.info('Uma nova versao esta disponivel.', { duration: 6000 });
+```
+
+Cada chamada aceita as opcoes do `react-hot-toast`, inclusive `duration` para
+sobrescrever o auto-dismiss padrao.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
