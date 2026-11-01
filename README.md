@@ -290,6 +290,69 @@ function ExemploTopbar({ abrirNotificacoes, naoLidas }) {
 Evidencias visuais: [Topbar em desktop](docs/evidencias/issue-78-topbar-desktop.png)
 e [dropdown em mobile](docs/evidencias/issue-78-topbar-mobile.png).
 
+## Paginacao
+
+O componente controlado `src/components/Pagination` oferece anterior/proxima,
+numeros de pagina e seletor de itens por pagina. A numeracao comeca em 1.
+
+```jsx
+import { useState } from 'react';
+import Pagination from './components/Pagination';
+
+function ListaPaginada({ registros }) {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const totalPages = Math.max(1, Math.ceil(registros.length / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const inicio = (currentPage - 1) * pageSize;
+  const visibleRows = registros.slice(inicio, inicio + pageSize);
+
+  return (
+    <>
+      <ul>
+        {visibleRows.map((registro) => (
+          <li key={registro.id}>{registro.nome}</li>
+        ))}
+      </ul>
+      <Pagination
+        page={currentPage}
+        pageSize={pageSize}
+        totalItems={registros.length}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
+      />
+    </>
+  );
+}
+```
+
+- `page`, `pageSize` e `totalItems` tem padroes 1, 10 e 0. A pagina consumidora
+  guarda o estado e atualiza os dados exibidos nos callbacks.
+- `onPageChange(page)` recebe o numero solicitado. Anterior/proxima ficam
+  desabilitados nos limites; clicar na pagina atual nao dispara nova mudanca.
+- Ao trocar a quantidade, o componente chama `onPageSizeChange(size)` e
+  `onPageChange(1)`, nessa ordem. O tamanho e sempre um numero.
+- `pageSizeOptions` permite personalizar as opcoes (padrao: 10, 25, 50, 100).
+  O tamanho atual e incluido mesmo se nao estiver na lista; valores duplicados
+  ou que nao sejam inteiros positivos sao descartados.
+- `disabled` bloqueia os controles durante uma requisicao. Sem o callback
+  correspondente, o controle fica desabilitado.
+- A pagina exibida fica limitada ao intervalo valido quando o total diminui.
+  Essa normalizacao nao dispara callbacks durante a renderizacao; a pagina
+  consumidora deve usar o mesmo limite para recortar os dados ou ajustar seu
+  estado apos filtros, exclusoes e respostas do servidor.
+- Sem registros, o resumo exibe 0–0 de 0 e a pagina 1, com anterior/proxima
+  desabilitados. Listas longas usam reticencias, mantendo primeira, ultima e
+  paginas proximas da atual. O resumo e anunciado e a pagina atual tem
+  `aria-current="page"`. Os controles se acomodam em linhas em telas pequenas.
+- Para usar com DataTable, passe a fatia atual em `data`. A ordenacao local da
+  tabela atua sobre essa fatia; ordenacao global deve ocorrer antes do recorte
+  ou no servidor. A paginacao nao executa requisicoes HTTP; na integracao remota,
+  envie `page`/`pageSize` e informe em `totalItems` o total retornado pela API.
+
+Evidencias visuais: [Paginacao em desktop](docs/evidencias/issue-79-paginacao-desktop.png)
+e [paginacao em mobile](docs/evidencias/issue-79-paginacao-mobile.png).
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
