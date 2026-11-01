@@ -200,6 +200,51 @@ function ListaPacientes({ pacientes, loading }) {
 Evidencias visuais: [Tabela em desktop](docs/evidencias/issue-76-tabela.png) e
 [scroll horizontal em mobile](docs/evidencias/issue-76-tabela-mobile.png).
 
+## Sidebar
+
+O componente `src/components/Sidebar` oferece marca no topo, navegacao com
+icones, destaque da rota ativa e logout. Deve ser usado dentro de
+`BrowserRouter` e `AuthProvider`, ja presentes na raiz da aplicacao.
+
+```jsx
+import { LayoutDashboard, UserRound } from 'lucide-react';
+import Sidebar from './components/Sidebar';
+
+const menuItems = [
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/perfil', label: 'Meu perfil', icon: UserRound },
+];
+
+function ExemploLayout({ children }) {
+  return (
+    <div className="min-h-dvh md:flex md:items-start">
+      <Sidebar items={menuItems} />
+      <main className="min-w-0 flex-1 p-6">{children}</main>
+    </div>
+  );
+}
+```
+
+- `items` aceita objetos com `to`, `label`, `icon` e `end` opcional. Os destinos
+  devem ser unicos. Sem essa prop, o menu exibe Dashboard e Meu perfil.
+- `NavLink` aplica destaque e `aria-current="page"` a rota ativa, inclusive nas
+  subrotas. Use `end: true` para exigir correspondencia exata.
+- `brandName`, `brandTo` e `logo` permitem personalizar a marca. O padrao e
+  CuidarVet com icone de pata e link para `/dashboard`.
+- Abaixo de 768px, o menu inicia recolhido e pode ser expandido pelo botao
+  Abrir menu, com `aria-expanded` e `aria-controls`. Links e logout recolhem o
+  menu. O conteudo expandido ocupa espaco na pagina, sem sobrepor o conteudo.
+- A partir de 768px, a navegacao permanece visivel, com largura de 256px e
+  altura da viewport. Menus longos possuem rolagem interna.
+- Sair chama `logout()` do contexto existente, remove a sessao persistida e
+  redireciona para `/login` com substituicao da entrada atual do historico.
+- A composicao com Topbar e Outlet pertence a #85; a protecao de rotas, a #84.
+  Os destinos de menu devem corresponder as paginas disponibilizadas pelo
+  layout consumidor.
+
+Evidencias visuais: [Sidebar em desktop](docs/evidencias/issue-77-sidebar-desktop.png)
+e [menu expandido em mobile](docs/evidencias/issue-77-sidebar-mobile.png).
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
