@@ -245,6 +245,51 @@ function ExemploLayout({ children }) {
 Evidencias visuais: [Sidebar em desktop](docs/evidencias/issue-77-sidebar-desktop.png)
 e [menu expandido em mobile](docs/evidencias/issue-77-sidebar-mobile.png).
 
+## Topbar
+
+O componente `src/components/Topbar` combina breadcrumb, notificacoes com
+badge e avatar com dropdown da conta. Assim como Sidebar, deve ficar dentro
+de `BrowserRouter` e `AuthProvider`.
+
+```jsx
+import Topbar from './components/Topbar';
+
+function ExemploTopbar({ abrirNotificacoes, naoLidas }) {
+  return (
+    <Topbar
+      breadcrumbs={[
+        { label: 'Dashboard', to: '/dashboard' },
+        { label: 'Meu perfil' },
+      ]}
+      notificationCount={naoLidas}
+      onNotificationsClick={abrirNotificacoes}
+    />
+  );
+}
+```
+
+- `breadcrumbs` recebe itens com `label` e `to` opcional. O ultimo item indica
+  a pagina atual com `aria-current="page"`; os anteriores com `to` sao links.
+  O padrao e apenas Dashboard. A pagina consumidora fornece o caminho correto.
+- `notificationCount` indica a quantidade nao lida (padrao: 0). O badge e
+  ocultado quando nao ha notificacoes e limitado visualmente a `99+`; o nome
+  acessivel do botao informa o total completo.
+- `onNotificationsClick` conecta o botao ao fluxo da pagina. Sem esse callback,
+  o botao fica desabilitado. A Topbar nao busca dados nem inventa notificacoes.
+- O nome vem de `user.nome` ou `user.name`, com fallback Usuario. O avatar usa
+  `avatarUrl` da prop ou de `user.avatarUrl`; na ausencia ou falha da imagem,
+  exibe as iniciais. O dropdown mostra nome, email quando disponivel, Meu
+  perfil e Sair.
+- O dropdown abre pelo botao da conta, fecha ao clicar fora, mover o foco para
+  fora, selecionar uma acao ou pressionar Esc. Esc devolve o foco ao botao da
+  conta. Links e botoes usam navegacao nativa por Tab, Enter e Espaco.
+- Sair usa `logout()` do contexto e redireciona para `/login` com replace.
+- Em telas pequenas, o nome junto ao avatar e ocultado e os breadcrumbs podem
+  quebrar linha. A integracao ao layout autenticado pertence a #85.
+
+Evidencias visuais: [Topbar em desktop](docs/evidencias/issue-78-topbar-desktop.png)
+e [dropdown em mobile](docs/evidencias/issue-78-topbar-mobile.png).
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
