@@ -91,6 +91,45 @@ notify.info('Uma nova versao esta disponivel.', { duration: 6000 });
 Cada chamada aceita as opcoes do `react-hot-toast`, inclusive `duration` para
 sobrescrever o auto-dismiss padrao.
 
+## Modal
+
+O componente `src/components/Modal` recebe `isOpen`, `onClose`, `title` e
+`children`. As props `description` e `footer` sao opcionais. O componente pai
+controla a abertura e deve atualizar `isOpen` ao receber `onClose`.
+
+```jsx
+import { useState } from 'react';
+import Modal from './components/Modal';
+
+function ExemploModal() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <button type="button" onClick={() => setIsOpen(true)}>
+        Abrir detalhes
+      </button>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Detalhes do registro"
+        description="Confira as informacoes abaixo."
+      >
+        <p>Conteudo do modal.</p>
+      </Modal>
+    </>
+  );
+}
+```
+
+O modal usa o elemento nativo `dialog`, com overlay escuro, botao de fechar,
+fechamento ao clicar fora ou pressionar Esc e bloqueio do scroll do body
+enquanto aberto. O navegador mantem o foco dentro do dialog e devolve o foco
+ao elemento anterior ao fechar. Ao fechar ou desmontar, o scroll anterior do
+body e restaurado. Conteudos longos possuem rolagem interna.
+
+Evidencia visual: [Modal em funcionamento](docs/evidencias/issue-74-modal.png).
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
