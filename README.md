@@ -130,6 +130,76 @@ body e restaurado. Conteudos longos possuem rolagem interna.
 
 Evidencia visual: [Modal em funcionamento](docs/evidencias/issue-74-modal.png).
 
+## Tabela de dados
+
+Use `src/components/DataTable` para exibir colecoes com colunas configuraveis,
+ordenacao local, selecao multipla opcional, estado vazio e skeleton de loading.
+
+```jsx
+import { useState } from 'react';
+import DataTable from './components/DataTable';
+
+const columns = [
+  { key: 'nome', header: 'Paciente' },
+  { key: 'idade', header: 'Idade' },
+  {
+    key: 'status',
+    header: 'Status',
+    render: (value) => <span className="font-medium">{value}</span>,
+  },
+  {
+    key: 'acoes',
+    header: 'Acoes',
+    sortable: false,
+    render: (_, row) => <a href={`/pacientes/${row.id}`}>Ver detalhes</a>,
+  },
+];
+
+function ListaPacientes({ pacientes, loading }) {
+  const [selectedKeys, setSelectedKeys] = useState([]);
+
+  return (
+    <DataTable
+      caption="Pacientes cadastrados"
+      columns={columns}
+      data={pacientes}
+      loading={loading}
+      selectable
+      selectedKeys={selectedKeys}
+      onSelectionChange={setSelectedKeys}
+      emptyState={<p>Nenhum paciente cadastrado.</p>}
+    />
+  );
+}
+```
+
+- Cada coluna tem `key` unico e `header`. Por padrao, a celula exibe
+  `row[column.key]`; `render(value, row)` permite personalizar o conteudo.
+- As colunas sao ordenaveis por padrao. Use `sortable: false` em colunas de
+  acoes. Cliques alternam ordem crescente e decrescente, com indicacao visual
+  e `aria-sort`. Numeros sao comparados numericamente, textos usam `pt-BR` e
+  valores nulos ficam por ultimo. `sortValue(row)` permite ordenar valores
+  derivados, como datas convertidas para timestamp. O array original nao e
+  modificado.
+- `rowKey` e `id` por padrao e pode ser outro campo ou uma funcao. Cada registro
+  deve ter uma chave unica, estavel, do tipo string ou numero.
+- Com `selectable`, os checkboxes selecionam registros individualmente ou todos
+  os registros de `data`. O checkbox do cabecalho indica selecao parcial.
+  `onSelectionChange(keys, rows)` recebe as chaves e os registros selecionados.
+  A selecao acompanha as chaves ao ordenar. Passe `selectedKeys` para controlar
+  a selecao externamente ou omita para usar o estado interno do componente.
+  Chaves ausentes de `data` nao contam para a selecao visivel; novas selecoes
+  retornam apenas registros presentes em `data`.
+- `loading` exibe skeletons e desabilita os controles; `loadingRows` define a
+  quantidade de linhas (padrao: 5). `emptyState` aceita texto ou JSX.
+- `caption` nomeia a tabela para leitores de tela. Em telas pequenas, o
+  conteiner oferece scroll horizontal e pode receber foco pelo teclado.
+- Busca, filtros, requisicoes HTTP e paginacao ficam a cargo da pagina que
+  utiliza o componente.
+
+Evidencias visuais: [Tabela em desktop](docs/evidencias/issue-76-tabela.png) e
+[scroll horizontal em mobile](docs/evidencias/issue-76-tabela-mobile.png).
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
