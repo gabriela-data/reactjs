@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/auth';
 
 export default function NotFound() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-100 px-6">
       <section className="max-w-md space-y-4 text-center">
@@ -14,7 +17,7 @@ export default function NotFound() {
           O endereço informado não existe ou foi removido.
         </p>
         <Link
-          to="/login"
+          to={isAuthenticated ? '/dashboard' : '/login'}
           className="inline-flex rounded-lg bg-primary px-4 py-2 font-medium text-white transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           Voltar para o login

@@ -37,6 +37,7 @@ export function saveSession({ token, refreshToken, user }) {
     localStorage.removeItem(REFRESH_TOKEN_KEY);
   }
   if (user) localStorage.setItem(USER_KEY, JSON.stringify(user));
+  else if (user === null) localStorage.removeItem(USER_KEY);
   emitSessionChange();
 }
 
@@ -54,7 +55,9 @@ export function getTokenExpiry(token) {
     const payload = token.split('.')[1];
     if (!payload) return null;
     const normalized = payload.replace(/-/g, '+').replace(/_/g, '/');
-    const claims = JSON.parse(atob(normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '=')));
+    const claims = JSON.parse(
+      atob(normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '='))
+    );
     return Number.isFinite(claims.exp) ? claims.exp * 1000 : null;
   } catch {
     return null;

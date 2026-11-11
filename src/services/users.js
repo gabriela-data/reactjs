@@ -1,13 +1,18 @@
 import api from './api';
 
 export function normalizeUsersResponse(data, responseHeaders = {}) {
-  const rows = Array.isArray(data)
-    ? data
-    : data?.usuarios ?? data?.users ?? data?.items ?? data?.data ?? [];
-  const pagination = data?.pagination ?? data?.paginacao ?? {};
+  const body = data?.data && !Array.isArray(data.data) ? data.data : data;
+  const rows = Array.isArray(body)
+    ? body
+    : (body?.usuarios ?? body?.users ?? body?.items ?? body?.data ?? []);
+  const pagination = body?.pagination ?? body?.paginacao ?? {};
   const headerTotal = Number(responseHeaders['x-total-count']);
   const total = Number(
-    data?.total ?? data?.totalItems ?? data?.totalUsuarios ?? pagination.total
+    body?.total ??
+      body?.totalItems ??
+      body?.totalUsuarios ??
+      pagination.total ??
+      data?.total
   );
 
   return {

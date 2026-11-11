@@ -1,11 +1,16 @@
 import api from './api';
-import { getStoredRefreshToken, getStoredUser, saveSession } from '../utils/authStorage';
+import {
+  getStoredRefreshToken,
+  getStoredUser,
+  saveSession,
+} from '../utils/authStorage';
 
 function persistAuthResponse(data) {
-  const token = data?.token ?? data?.accessToken;
-  const user = data?.user ?? data?.usuario ?? data?.data?.user;
-  const refreshToken = data?.refreshToken ?? data?.refresh_token;
-  saveSession({ token, refreshToken, user });
+  const body = data?.data ?? data;
+  const token = body?.token ?? body?.accessToken;
+  const user = body?.user ?? body?.usuario;
+  const refreshToken = body?.refreshToken ?? body?.refresh_token;
+  saveSession({ token, refreshToken, user: user ?? null });
   return user ?? null;
 }
 
@@ -21,7 +26,11 @@ export async function register(user) {
 }
 
 export async function requestPasswordReset(email) {
-  return api.post('/auth/forgot-password', { email }, { skipAuthRefresh: true });
+  return api.post(
+    '/auth/forgot-password',
+    { email },
+    { skipAuthRefresh: true }
+  );
 }
 
 export async function refreshAuthSession() {
