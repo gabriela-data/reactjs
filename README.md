@@ -20,12 +20,13 @@ O objetivo é aplicar na prática os conceitos de:
 ## Funcionalidades
 
 - [x] Autenticação de usuários (login/cadastro) com JWT
-- [x] CRUD completo de [entidade principal]
+- [x] CRUD de usuários
 - [x] Listagem com paginação e filtros
 - [x] Rotas protegidas por autenticação
 - [x] Feedback visual (loading, toasts, erros)
-- [ ] Layout responsivo
-- [ ] Dashboard com gráficos (em desenvolvimento)
+- [x] Layout responsivo
+- [x] Dashboard inicial e navegação da clínica
+- [ ] Dashboard com gráficos (depende de endpoint de métricas)
 - [ ] Modo escuro (planejado)
 
 ---
@@ -203,12 +204,19 @@ Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js
 |--------|----------|-----------|
 | `POST` | `/auth/login` | Autenticação de usuário |
 | `POST` | `/auth/register` | Cadastro de novo usuário |
+| `POST` | `/auth/forgot-password` | Solicitar recuperação de senha |
+| `POST` | `/auth/refresh` | Renovar o token de acesso |
+| `POST` | `/usuarios` | Criar usuário |
 | `GET` | `/usuarios` | Listar usuários |
 | `GET` | `/usuarios/:id` | Buscar usuário por ID |
 | `PUT` | `/usuarios/:id` | Atualizar usuário |
 | `DELETE` | `/usuarios/:id` | Remover usuário |
 
 > **Importante:** O backend precisa estar em execução localmente para que o frontend funcione corretamente em ambiente de desenvolvimento.
+
+O frontend envia `email` e `senha` para o login; o cadastro envia `nome`, `email` e `senha`. A listagem envia os parâmetros `page`, `limit` e `search`, e aceita uma lista simples ou uma resposta paginada com `usuarios`, `users`, `items` ou `data` e o total correspondente.
+
+> **Contrato a confirmar com o grupo de backend:** os endpoints `/auth/forgot-password` e `/auth/refresh`, os nomes dos campos, a forma de devolver o usuário/token e os parâmetros de paginação não constavam na documentação disponível quando este frontend foi implementado. Ajuste `src/services/auth.js`, `src/services/api.js` e `src/services/users.js` se o backend usar outro contrato. A tela de configurações salva preferências somente no navegador; não pressupõe endpoint de configurações.
 
 ---
 
@@ -408,20 +416,45 @@ Para manter o repositório organizado e evitar conflitos entre a equipe:
 ### Fluxo de trabalho
 
 ```bash
-# Atualize a develop antes de começar
-git checkout develop
-git pull origin develop
+# Crie cada feature a partir da develop atualizada
+git switch develop
+git pull --ff-only origin develop
+git switch -c feature/nome-da-issue
 
-# Crie sua feature branch
-git checkout -b feature/tela-login
-
-# Trabalhe, commite e envie
-git add .
-git commit -m "feat: adiciona tela de login com validação"
-git push origin feature/tela-login
+# Implemente e valide; depois crie um commit Conventional Commits
+npm run dev
+npm run build
+git add src README.md
+git commit -m "feat: implementa nome da funcionalidade"
+git push -u origin feature/nome-da-issue
 ```
 
-Depois, abra um **Pull Request** para `develop`. Após revisão e aprovação, o merge é feito.
+Abra um Pull Request da `feature/*` para `develop`; aguarde revisão e aprovação antes do merge. Não faça push direto para `develop`.
+
+### Validação da entrega e promoção para main
+
+Depois que as features planejadas forem integradas, valide a `develop` localmente:
+
+```bash
+git switch develop
+git pull --ff-only origin develop
+npm ci
+npm run build
+npm run preview
+```
+
+Se a validação passar, abra um Pull Request de `develop` para `main` no GitHub e aguarde a revisão. Não faça push nem merge direto para `main`.
+
+Após o merge desse PR, a `develop` normalmente já contém as mudanças. Se precisar sincronizar alterações exclusivas da `main`, faça isso também por Pull Request:
+
+```bash
+git switch develop
+git pull --ff-only origin develop
+git switch -c feature/sync-main-into-develop
+git merge origin/main
+git push -u origin feature/sync-main-into-develop
+# Abra um PR de feature/sync-main-into-develop para develop
+```
 
 > A branch `main` está protegida no GitHub: só recebe merge via PR com revisão.
 
