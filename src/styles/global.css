@@ -10,9 +10,23 @@
 }
 
 body {
+  min-width: 320px;
+  min-height: 100vh;
   font-family: var(--font-body);
   background-color: #f9fafb;
   color: #1f2937;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button:not(:disabled),
+a[href] {
+  -webkit-tap-highlight-color: transparent;
 }
 
 h1,

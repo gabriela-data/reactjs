@@ -5,6 +5,8 @@ import {
   LogOut,
   Menu,
   PawPrint,
+  Settings,
+  UsersRound,
   UserRound,
   X,
 } from 'lucide-react';
@@ -12,7 +14,9 @@ import { useAuth } from '../../contexts/auth';
 
 const defaultItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/usuarios', label: 'Usuários', icon: UsersRound },
   { to: '/perfil', label: 'Meu perfil', icon: UserRound },
+  { to: '/configuracoes', label: 'Configurações', icon: Settings },
 ];
 
 export default function Sidebar({
