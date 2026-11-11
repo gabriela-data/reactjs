@@ -1,379 +1,478 @@
-# React + Vite
+# 🐾 CuidarVet — Frontend 
+(React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Sobre o Projeto
 
-## Configuracao local
+Este repositório contém a aplicação **frontend** desenvolvida em **React JS** como parte do trabalho da disciplina de **Sistemas Web**. O projeto é desenvolvido em conjunto com outro grupo responsável pelo **backend em Node.js**, seguindo a arquitetura cliente-servidor com comunicação via API REST.
 
-O projeto requer Node.js 22 e npm 10 ou superior.
+O objetivo é aplicar na prática os conceitos de:
 
-1. Instale as dependencias com `npm ci`.
-2. Copie `.env.example` para `.env`.
-3. Ajuste `VITE_API_URL` para o endereco da API.
-4. Inicie o projeto com `npm run dev`.
+- Componentização e gerenciamento de estado em React
+- Consumo de APIs REST
+- Roteamento SPA (Single Page Application)
+- Boas práticas de organização de código frontend
+- Integração entre equipes (frontend × backend)
+- Prototipagem de UI/UX antes da implementação
+- Padronização de ambiente de desenvolvimento entre membros da equipe
 
-Exemplo de configuracao:
+---
+
+## Funcionalidades
+
+- [x] Autenticação de usuários (login/cadastro) com JWT
+- [x] CRUD completo de [entidade principal]
+- [x] Listagem com paginação e filtros
+- [x] Rotas protegidas por autenticação
+- [x] Feedback visual (loading, toasts, erros)
+- [ ] Layout responsivo
+- [ ] Dashboard com gráficos (em desenvolvimento)
+- [ ] Modo escuro (planejado)
+
+---
+
+## Protótipos no Figma
+
+Todos os protótipos de interface (UI/UX) do sistema foram desenvolvidos no **Figma** antes da implementação em React. Isso permite validar o fluxo de navegação, o layout e a experiência do usuário junto ao grupo de backend e aos stakeholders antes de partir para o código.
+
+🔗 **Acesse o protótipo completo navegável:** [Clique aqui para abrir no Figma](https://www.figma.com/make/DOR2OQvmkfJ6au7zM4CWX4/Login-e-Cadastro-Veterin%C3%A1rio?t=8DK6f1eYUBbHVj7W-1)
+
+### Telas prototipadas
+
+| Tela | Descrição | Preview | Link |
+|------|-----------|---------|------|
+| Login | Tela de autenticação com e-mail/senha, "lembrar-me" e login social | Login | Ver no Figma |
+| Cadastro | Formulário de criação de conta com validação | Cadastro | Ver no Figma |
+| Recuperar Senha | Fluxo de recuperação de senha por e-mail | Recuperar Senha | Ver no Figma |
+| Home / Dashboard | Painel principal após autenticação | Dashboard | Ver no Figma |
+| Listagem | Tabela com paginação, filtros e busca | Listagem | Ver no Figma |
+| Formulário de Cadastro/Edição | Criação e edição de registros | Formulário | Ver no Figma |
+| Perfil do Usuário | Dados pessoais e preferências | Perfil | Ver no Figma |
+| Configurações | Ajustes do sistema | Configurações | Ver no Figma |
+| 404 / Erro | Página de erro personalizada | 404 | Ver no Figma |
+
+### Design System
+
+O projeto segue um design system definido no Figma, com:
+
+- **Cores primárias:** `#2563EB` (azul), `#10B981` (verde), `#EF4444` (vermelho)
+- **Tipografia:** Poppins (títulos) e Inter (corpo)
+- **Espaçamentos:** grid de 8px
+- **Componentes:** botões, inputs, cards, modais e toasts padronizados
+- **Modo claro e escuro:** previsto para versões futuras
+
+🔗 **Acessar o Design System:** [Clique aqui](https://www.figma.com/make/DOR2OQvmkfJ6au7zM4CWX4/Login-e-Cadastro-Veterin%C3%A1rio?t=8DK6f1eYUBbHVj7W-1)
+
+### Organização dos arquivos de protótipo no repositório
+
+```
+docs/
+└── prototipos/
+    ├── login.png
+    ├── cadastro.png
+    ├── recuperar-senha.png
+    ├── dashboard.png
+    ├── listagem.png
+    ├── formulario.png
+    ├── perfil.png
+    ├── configuracoes.png
+    ├── 404.png
+    └── prototipo-completo.png
+```
+
+### Fluxo de navegação (User Flow)
+
+O protótipo interativo do Figma contempla o fluxo completo do usuário:
+
+```
+Login → Dashboard → Listagem → Formulário → Sucesso
+Cadastro → Confirmação de E-mail → Login
+Recuperar Senha → E-mail enviado → Redefinir Senha → Login
+```
+
+### Status dos protótipos
+
+- [x] Wireframes de baixa fidelidade
+- [x] Protótipos de alta fidelidade (desktop)
+- [ ] Protótipos de alta fidelidade (mobile)
+- [ ] Protótipo navegável (interativo)
+- [ ] Handoff para desenvolvimento (medidas, cores, fontes)
+- [ ] Testes de usabilidade com usuários
+- [ ] Versão final aprovada pelo grupo de backend
+
+---
+
+## Tecnologias Utilizadas
+
+| Tecnologia | Versão | Descrição |
+|-----------|--------|-----------|
+| [React](https://react.dev/) | 19.x | Biblioteca para construção de interfaces |
+| [Vite](https://vitejs.dev/) | 8.x | Build tool e dev server |
+| [React Router DOM](https://reactrouter.com/) | 7.x | Roteamento SPA |
+| [Axios](https://axios-http.com/) | 1.x | Cliente HTTP para consumir a API |
+| [Tailwind CSS](https://tailwindcss.com/) | 4.x | Estilização utilitária |
+| [Context API](https://react.dev/reference/react/useContext) | — | Gerenciamento de estado global |
+| [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) | — | Formulários e validação |
+| [React Hot Toast](https://react-hot-toast.com/) | — | Notificações (toasts) |
+| [Lucide React](https://lucide.dev/) | — | Ícones |
+| [Oxlint](https://oxc.rs/docs/guide/usage/linter.html) | — | Linter (substitui ESLint no template novo do Vite) |
+| [Figma](https://www.figma.com/) | — | Prototipagem e Design System |
+
+---
+
+## Padronização de Ambiente (importante para a equipe)
+
+Para evitar problemas de compatibilidade entre **Linux, macOS e Windows**, e para garantir que todos os membros usem as **mesmas versões** de Node, npm e dependências, o repositório inclui arquivos de padronização que **devem ser respeitados**.
+
+### Versão do Node.js — `.nvmrc`
+
+O projeto usa **Node.js 22** (LTS). O arquivo `.nvmrc` na raiz fixa essa versão.
+
+```bash
+# Se você usa nvm (Linux/macOS) ou nvm-windows:
+nvm install    # instala a versão do .nvmrc
+nvm use        # ativa a versão do .nvmrc
+```
+
+> 💡 Se você usa **fish shell**, instale o [`nvm.fish`](https://github.com/jorgebucaran/nvm.fish) — ele troca a versão automaticamente ao entrar na pasta.
+
+### Faixa de versões — `engines` no `package.json`
+
+```json
+"engines": {
+  "node": ">=22.0.0 <23.0.0",
+  "npm": ">=10.0.0"
+}
+```
+
+Para que essa faixa seja **obrigatória** (bloqueando instalações fora dela), existe um `.npmrc` com:
+
+```
+engine-strict=true
+```
+
+Se alguém tentar rodar `npm install` com Node 18, o npm **recusa** e pede para atualizar.
+
+### Gerenciador de pacotes — `packageManager`
+
+O `package.json` define o gerenciador padrão:
+
+```json
+"packageManager": "npm@10.9.9"
+```
+
+### Quebras de linha — `.gitattributes`
+
+Como o time mistura **Windows** e **Linux**, o arquivo `.gitattributes` normaliza quebras de linha para `LF` no repositório, evitando conflitos do tipo "funciona na minha máquina".
+
+```
+* text=auto eol=lf
+```
+
+### Estilo de código — `.editorconfig`
+
+Padroniza indentação (2 espaços), encoding (UTF-8), fim de linha (LF) e remoção de espaços em branco ao final das linhas, independentemente do editor.
+
+### Instalação reprodutível — `npm ci`
+
+O **`package-lock.json` está versionado** no repositório. Para instalar exatamente as versões travadas no lockfile:
+
+```bash
+npm ci
+```
+
+> ⚠️ Use `npm ci` **em vez de** `npm install` ao clonar o projeto pela primeira vez ou em pipelines de CI. Ele falha se o lockfile estiver fora de sincronia com o `package.json`, garantindo consistência.
+
+### Usuários de Windows
+
+- Recomendado usar **Git Bash** ou **WSL** para os comandos shell deste README.
+- Se aparecerem erros de build em módulos nativos, instale o **Visual Studio Build Tools** (opção "Desktop development with C++").
+
+---
+
+## Integração com o Backend
+
+Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js**.
+
+- **Repositório do Backend:** [github.com/vitormsantos1/React.Node-backend](https://github.com/vitormsantos1/React.Node-backend)
+- **URL base da API (dev):** `http://localhost:3000/api`
+- **Documentação da API:** [Swagger/Postman](https://link-da-doc)
+
+### Endpoints principais consumidos
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `POST` | `/auth/login` | Autenticação de usuário |
+| `POST` | `/auth/register` | Cadastro de novo usuário |
+| `GET` | `/usuarios` | Listar usuários |
+| `GET` | `/usuarios/:id` | Buscar usuário por ID |
+| `PUT` | `/usuarios/:id` | Atualizar usuário |
+| `DELETE` | `/usuarios/:id` | Remover usuário |
+
+> **Importante:** O backend precisa estar em execução localmente para que o frontend funcione corretamente em ambiente de desenvolvimento.
+
+---
+
+## Pré-requisitos
+
+Antes de começar, você precisa ter instalado em sua máquina:
+
+- [Node.js 22.x](https://nodejs.org/) (LTS) — use `nvm`, `nvm-windows` ou `fnm`
+- [npm](https://www.npmjs.com/) 10.x ou superior
+- [Git](https://git-scm.com/)
+- O **backend em Node.js** rodando localmente
+
+---
+
+## Instalação
+
+1. **Clone o repositório:**
+
+   ```bash
+   git clone https://github.com/gabriela-data/reactjs.git
+   cd reactjs
+   ```
+
+2. **Ative a versão correta do Node:**
+
+   ```bash
+   nvm use    # lê o .nvmrc automaticamente
+   ```
+
+3. **Instale as dependências (de forma reprodutível):**
+
+   ```bash
+   npm ci
+   ```
+
+   > Se preferir instalar normalmente: `npm install`.
+
+---
+
+## Configuração de Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto com base no exemplo:
 
 ```env
 VITE_API_URL=http://localhost:3000/api
-VITE_APP_NAME=VetClinic
+VITE_APP_NAME=CuidarVet
 ```
 
-O arquivo `.env` contem configuracoes locais e nao deve ser versionado. O
-`.env.example` documenta as variaveis necessarias sem armazenar segredos.
+Existe um arquivo `.env.example` no repositório como referência. **Nunca versione o arquivo `.env` real.**
 
-## Cliente HTTP
+---
 
-O cliente Axios compartilhado fica em `src/services/api.js`. Ele usa a URL de
-`VITE_API_URL`, aplica timeout de 10 segundos e envia automaticamente o token
-salvo em `@vet:token` no cabecalho `Authorization`.
+## Executando o Projeto
 
-```js
-import api from './services/api';
-
-const { data } = await api.get('/exemplo');
-```
-
-Respostas `401` ou `403` removem os dados de autenticacao persistidos e
-redirecionam o usuario para `/login`.
-
-## Formularios e validacao
-
-Os formularios usam React Hook Form com schemas Zod conectados pelo
-`zodResolver`. O schema deve ficar separado do componente para que as regras
-possam ser reutilizadas e testadas isoladamente.
-
-```js
-import { z } from 'zod';
-
-const exemploSchema = z.object({
-  nome: z.string().min(3, 'O nome deve ter pelo menos 3 caracteres'),
-  email: z.string().email('Informe um e-mail valido'),
-});
-```
-
-No componente, passe o schema ao `useForm` e mostre a mensagem correspondente
-ao campo:
-
-```jsx
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-
-const {
-  register,
-  handleSubmit,
-  formState: { errors },
-} = useForm({ resolver: zodResolver(exemploSchema) });
-
-<form onSubmit={handleSubmit(console.log)}>
-  <input {...register('nome')} />
-  {errors.nome && <span>{errors.nome.message}</span>}
-</form>;
-```
-
-O login em `src/pages/Login` e o schema em `src/schemas/loginSchema.js`
-servem como implementacao funcional de referencia.
-
-## Notificacoes
-
-Use a API centralizada de `src/services/notification.js` para manter o visual e
-o tempo de exibicao consistentes. Ela oferece notificacoes de sucesso, erro,
-aviso e informacao, com fila gerenciada pelo `Toaster` global.
-
-```js
-import { notify } from './services/notification';
-
-notify.success('Registro salvo!');
-notify.error('Nao foi possivel salvar.');
-notify.warning('Revise os dados informados.');
-notify.info('Uma nova versao esta disponivel.', { duration: 6000 });
-```
-
-Cada chamada aceita as opcoes do `react-hot-toast`, inclusive `duration` para
-sobrescrever o auto-dismiss padrao.
-
-## Modal
-
-O componente `src/components/Modal` recebe `isOpen`, `onClose`, `title` e
-`children`. As props `description` e `footer` sao opcionais. O componente pai
-controla a abertura e deve atualizar `isOpen` ao receber `onClose`.
-
-```jsx
-import { useState } from 'react';
-import Modal from './components/Modal';
-
-function ExemploModal() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <>
-      <button type="button" onClick={() => setIsOpen(true)}>
-        Abrir detalhes
-      </button>
-      <Modal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        title="Detalhes do registro"
-        description="Confira as informacoes abaixo."
-      >
-        <p>Conteudo do modal.</p>
-      </Modal>
-    </>
-  );
-}
-```
-
-O modal usa o elemento nativo `dialog`, com overlay escuro, botao de fechar,
-fechamento ao clicar fora ou pressionar Esc e bloqueio do scroll do body
-enquanto aberto. O navegador mantem o foco dentro do dialog e devolve o foco
-ao elemento anterior ao fechar. Ao fechar ou desmontar, o scroll anterior do
-body e restaurado. Conteudos longos possuem rolagem interna.
-
-Evidencia visual: [Modal em funcionamento](docs/evidencias/issue-74-modal.png).
-
-## Tabela de dados
-
-Use `src/components/DataTable` para exibir colecoes com colunas configuraveis,
-ordenacao local, selecao multipla opcional, estado vazio e skeleton de loading.
-
-```jsx
-import { useState } from 'react';
-import DataTable from './components/DataTable';
-
-const columns = [
-  { key: 'nome', header: 'Paciente' },
-  { key: 'idade', header: 'Idade' },
-  {
-    key: 'status',
-    header: 'Status',
-    render: (value) => <span className="font-medium">{value}</span>,
-  },
-  {
-    key: 'acoes',
-    header: 'Acoes',
-    sortable: false,
-    render: (_, row) => <a href={`/pacientes/${row.id}`}>Ver detalhes</a>,
-  },
-];
-
-function ListaPacientes({ pacientes, loading }) {
-  const [selectedKeys, setSelectedKeys] = useState([]);
-
-  return (
-    <DataTable
-      caption="Pacientes cadastrados"
-      columns={columns}
-      data={pacientes}
-      loading={loading}
-      selectable
-      selectedKeys={selectedKeys}
-      onSelectionChange={setSelectedKeys}
-      emptyState={<p>Nenhum paciente cadastrado.</p>}
-    />
-  );
-}
-```
-
-- Cada coluna tem `key` unico e `header`. Por padrao, a celula exibe
-  `row[column.key]`; `render(value, row)` permite personalizar o conteudo.
-- As colunas sao ordenaveis por padrao. Use `sortable: false` em colunas de
-  acoes. Cliques alternam ordem crescente e decrescente, com indicacao visual
-  e `aria-sort`. Numeros sao comparados numericamente, textos usam `pt-BR` e
-  valores nulos ficam por ultimo. `sortValue(row)` permite ordenar valores
-  derivados, como datas convertidas para timestamp. O array original nao e
-  modificado.
-- `rowKey` e `id` por padrao e pode ser outro campo ou uma funcao. Cada registro
-  deve ter uma chave unica, estavel, do tipo string ou numero.
-- Com `selectable`, os checkboxes selecionam registros individualmente ou todos
-  os registros de `data`. O checkbox do cabecalho indica selecao parcial.
-  `onSelectionChange(keys, rows)` recebe as chaves e os registros selecionados.
-  A selecao acompanha as chaves ao ordenar. Passe `selectedKeys` para controlar
-  a selecao externamente ou omita para usar o estado interno do componente.
-  Chaves ausentes de `data` nao contam para a selecao visivel; novas selecoes
-  retornam apenas registros presentes em `data`.
-- `loading` exibe skeletons e desabilita os controles; `loadingRows` define a
-  quantidade de linhas (padrao: 5). `emptyState` aceita texto ou JSX.
-- `caption` nomeia a tabela para leitores de tela. Em telas pequenas, o
-  conteiner oferece scroll horizontal e pode receber foco pelo teclado.
-- Busca, filtros, requisicoes HTTP e paginacao ficam a cargo da pagina que
-  utiliza o componente.
-
-Evidencias visuais: [Tabela em desktop](docs/evidencias/issue-76-tabela.png) e
-[scroll horizontal em mobile](docs/evidencias/issue-76-tabela-mobile.png).
-
-## Sidebar
-
-O componente `src/components/Sidebar` oferece marca no topo, navegacao com
-icones, destaque da rota ativa e logout. Deve ser usado dentro de
-`BrowserRouter` e `AuthProvider`, ja presentes na raiz da aplicacao.
-
-```jsx
-import { LayoutDashboard, UserRound } from 'lucide-react';
-import Sidebar from './components/Sidebar';
-
-const menuItems = [
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/perfil', label: 'Meu perfil', icon: UserRound },
-];
-
-function ExemploLayout({ children }) {
-  return (
-    <div className="min-h-dvh md:flex md:items-start">
-      <Sidebar items={menuItems} />
-      <main className="min-w-0 flex-1 p-6">{children}</main>
-    </div>
-  );
-}
-```
-
-- `items` aceita objetos com `to`, `label`, `icon` e `end` opcional. Os destinos
-  devem ser unicos. Sem essa prop, o menu exibe Dashboard e Meu perfil.
-- `NavLink` aplica destaque e `aria-current="page"` a rota ativa, inclusive nas
-  subrotas. Use `end: true` para exigir correspondencia exata.
-- `brandName`, `brandTo` e `logo` permitem personalizar a marca. O padrao e
-  CuidarVet com icone de pata e link para `/dashboard`.
-- Abaixo de 768px, o menu inicia recolhido e pode ser expandido pelo botao
-  Abrir menu, com `aria-expanded` e `aria-controls`. Links e logout recolhem o
-  menu. O conteudo expandido ocupa espaco na pagina, sem sobrepor o conteudo.
-- A partir de 768px, a navegacao permanece visivel, com largura de 256px e
-  altura da viewport. Menus longos possuem rolagem interna.
-- Sair chama `logout()` do contexto existente, remove a sessao persistida e
-  redireciona para `/login` com substituicao da entrada atual do historico.
-- A composicao com Topbar e Outlet pertence a #85; a protecao de rotas, a #84.
-  Os destinos de menu devem corresponder as paginas disponibilizadas pelo
-  layout consumidor.
-
-Evidencias visuais: [Sidebar em desktop](docs/evidencias/issue-77-sidebar-desktop.png)
-e [menu expandido em mobile](docs/evidencias/issue-77-sidebar-mobile.png).
-
-## Topbar
-
-O componente `src/components/Topbar` combina breadcrumb, notificacoes com
-badge e avatar com dropdown da conta. Assim como Sidebar, deve ficar dentro
-de `BrowserRouter` e `AuthProvider`.
-
-```jsx
-import Topbar from './components/Topbar';
-
-function ExemploTopbar({ abrirNotificacoes, naoLidas }) {
-  return (
-    <Topbar
-      breadcrumbs={[
-        { label: 'Dashboard', to: '/dashboard' },
-        { label: 'Meu perfil' },
-      ]}
-      notificationCount={naoLidas}
-      onNotificationsClick={abrirNotificacoes}
-    />
-  );
-}
-```
-
-- `breadcrumbs` recebe itens com `label` e `to` opcional. O ultimo item indica
-  a pagina atual com `aria-current="page"`; os anteriores com `to` sao links.
-  O padrao e apenas Dashboard. A pagina consumidora fornece o caminho correto.
-- `notificationCount` indica a quantidade nao lida (padrao: 0). O badge e
-  ocultado quando nao ha notificacoes e limitado visualmente a `99+`; o nome
-  acessivel do botao informa o total completo.
-- `onNotificationsClick` conecta o botao ao fluxo da pagina. Sem esse callback,
-  o botao fica desabilitado. A Topbar nao busca dados nem inventa notificacoes.
-- O nome vem de `user.nome` ou `user.name`, com fallback Usuario. O avatar usa
-  `avatarUrl` da prop ou de `user.avatarUrl`; na ausencia ou falha da imagem,
-  exibe as iniciais. O dropdown mostra nome, email quando disponivel, Meu
-  perfil e Sair.
-- O dropdown abre pelo botao da conta, fecha ao clicar fora, mover o foco para
-  fora, selecionar uma acao ou pressionar Esc. Esc devolve o foco ao botao da
-  conta. Links e botoes usam navegacao nativa por Tab, Enter e Espaco.
-- Sair usa `logout()` do contexto e redireciona para `/login` com replace.
-- Em telas pequenas, o nome junto ao avatar e ocultado e os breadcrumbs podem
-  quebrar linha. A integracao ao layout autenticado pertence a #85.
-
-Evidencias visuais: [Topbar em desktop](docs/evidencias/issue-78-topbar-desktop.png)
-e [dropdown em mobile](docs/evidencias/issue-78-topbar-mobile.png).
-
-## Paginacao
-
-O componente controlado `src/components/Pagination` oferece anterior/proxima,
-numeros de pagina e seletor de itens por pagina. A numeracao comeca em 1.
-
-```jsx
-import { useState } from 'react';
-import Pagination from './components/Pagination';
-
-function ListaPaginada({ registros }) {
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const totalPages = Math.max(1, Math.ceil(registros.length / pageSize));
-  const currentPage = Math.min(page, totalPages);
-  const inicio = (currentPage - 1) * pageSize;
-  const visibleRows = registros.slice(inicio, inicio + pageSize);
-
-  return (
-    <>
-      <ul>
-        {visibleRows.map((registro) => (
-          <li key={registro.id}>{registro.nome}</li>
-        ))}
-      </ul>
-      <Pagination
-        page={currentPage}
-        pageSize={pageSize}
-        totalItems={registros.length}
-        onPageChange={setPage}
-        onPageSizeChange={setPageSize}
-      />
-    </>
-  );
-}
-```
-
-- `page`, `pageSize` e `totalItems` tem padroes 1, 10 e 0. A pagina consumidora
-  guarda o estado e atualiza os dados exibidos nos callbacks.
-- `onPageChange(page)` recebe o numero solicitado. Anterior/proxima ficam
-  desabilitados nos limites; clicar na pagina atual nao dispara nova mudanca.
-- Ao trocar a quantidade, o componente chama `onPageSizeChange(size)` e
-  `onPageChange(1)`, nessa ordem. O tamanho e sempre um numero.
-- `pageSizeOptions` permite personalizar as opcoes (padrao: 10, 25, 50, 100).
-  O tamanho atual e incluido mesmo se nao estiver na lista; valores duplicados
-  ou que nao sejam inteiros positivos sao descartados.
-- `disabled` bloqueia os controles durante uma requisicao. Sem o callback
-  correspondente, o controle fica desabilitado.
-- A pagina exibida fica limitada ao intervalo valido quando o total diminui.
-  Essa normalizacao nao dispara callbacks durante a renderizacao; a pagina
-  consumidora deve usar o mesmo limite para recortar os dados ou ajustar seu
-  estado apos filtros, exclusoes e respostas do servidor.
-- Sem registros, o resumo exibe 0–0 de 0 e a pagina 1, com anterior/proxima
-  desabilitados. Listas longas usam reticencias, mantendo primeira, ultima e
-  paginas proximas da atual. O resumo e anunciado e a pagina atual tem
-  `aria-current="page"`. Os controles se acomodam em linhas em telas pequenas.
-- Para usar com DataTable, passe a fatia atual em `data`. A ordenacao local da
-  tabela atua sobre essa fatia; ordenacao global deve ocorrer antes do recorte
-  ou no servidor. A paginacao nao executa requisicoes HTTP; na integracao remota,
-  envie `page`/`pageSize` e informe em `totalItems` o total retornado pela API.
-
-Evidencias visuais: [Paginacao em desktop](docs/evidencias/issue-79-paginacao-desktop.png)
-e [paginacao em mobile](docs/evidencias/issue-79-paginacao-mobile.png).
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Padroes de codigo
-
-O ESLint verifica JavaScript, JSX, React Hooks e compatibilidade com Fast
-Refresh. O Prettier formata o projeto com ponto e virgula, aspas simples,
-indentacao de dois espacos e trailing commas no padrao ES5. O
-`eslint-config-prettier` desativa regras de lint que poderiam conflitar com a
-formatacao.
+### Modo desenvolvimento
 
 ```bash
-npm run lint          # verifica o codigo com ESLint
-npm run lint:fix      # corrige automaticamente o que for possivel
-npm run lint:fast     # verificacao adicional e rapida com Oxlint
-npm run format        # formata os arquivos com Prettier
-npm run format:check  # verifica a formatacao sem alterar arquivos
+npm run dev
 ```
+
+A aplicação estará disponível em: [http://localhost:5173](http://localhost:5173)
+
+### Build de produção
+
+```bash
+npm run build
+```
+
+### Pré-visualizar build
+
+```bash
+npm run preview
+```
+
+---
+
+## Estrutura de Pastas
+
+```
+reactjs/
+├── docs/                     # Documentação e protótipos
+│   └── prototipos/           # Exportações das telas do Figma
+├── public/
+├── src/
+│   ├── assets/               # Imagens, ícones, fontes
+│   ├── components/           # Componentes reutilizáveis
+│   │   ├── Button/
+│   │   ├── Input/
+│   │   ├── Modal/
+│   │   └── Card/
+│   ├── contexts/             # Context API (autenticação, tema, etc.)
+│   ├── hooks/                # Custom hooks
+│   ├── pages/                # Páginas da aplicação
+│   │   ├── Login/
+│   │   ├── Cadastro/
+│   │   ├── RecuperarSenha/
+│   │   ├── Dashboard/
+│   │   ├── ListagemUsuarios/
+│   │   ├── Formulario/
+│   │   ├── Perfil/
+│   │   ├── Configuracoes/
+│   │   └── NotFound/
+│   ├── routes/               # Configuração de rotas
+│   ├── services/             # Configuração do Axios e chamadas à API
+│   │   └── api.js
+│   ├── styles/               # Estilos globais (Tailwind)
+│   │   └── global.css
+│   ├── utils/                # Funções auxiliares
+│   ├── App.jsx
+│   └── main.jsx
+├── .editorconfig
+├── .env.example
+├── .gitattributes
+├── .gitignore
+├── .npmrc
+├── .nvmrc
+├── index.html
+├── package.json
+├── package-lock.json
+├── vite.config.js
+└── README.md
+```
+
+---
+
+## Scripts Disponíveis
+
+| Script | Descrição |
+|--------|-----------|
+| `npm run dev` | Inicia o servidor de desenvolvimento |
+| `npm run build` | Gera build otimizada para produção |
+| `npm run preview` | Pré-visualiza a build de produção |
+| `npm run lint` | Executa o Oxlint |
+| `npm run format` | Formata o código com Prettier |
+
+---
+
+## Consumo da API
+
+Exemplo de configuração do Axios em `src/services/api.js`:
+
+```js
+import axios from 'axios'
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  timeout: 10000,
+})
+
+// Interceptor para adicionar token JWT automaticamente
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('@vet:token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
+export default api
+```
+
+Exemplo de uso em um componente:
+
+```jsx
+import { useEffect, useState } from 'react'
+import api from '../services/api'
+
+export default function ListaUsuarios() {
+  const [usuarios, setUsuarios] = useState([])
+
+  useEffect(() => {
+    api.get('/usuarios')
+      .then((response) => setUsuarios(response.data))
+      .catch((error) => console.error(error))
+  }, [])
+
+  return (
+    <ul>
+      {usuarios.map((u) => <li key={u.id}>{u.nome}</li>)}
+    </ul>
+  )
+}
+```
+
+---
+
+## Estratégia de Branches
+
+Para manter o repositório organizado e evitar conflitos entre a equipe:
+
+| Branch | Propósito |
+|--------|-----------|
+| `main` | Versão estável. Recebe apenas merges via Pull Request. |
+| `develop` | Branch de integração. Todo trabalho da equipe é reunido aqui antes de ir para `main`. |
+| `feature/nome-da-tarefa` | Branches curtas para cada funcionalidade ou correção. Saem de `develop`. |
+
+### Fluxo de trabalho
+
+```bash
+# Atualize a develop antes de começar
+git checkout develop
+git pull origin develop
+
+# Crie sua feature branch
+git checkout -b feature/tela-login
+
+# Trabalhe, commite e envie
+git add .
+git commit -m "feat: adiciona tela de login com validação"
+git push origin feature/tela-login
+```
+
+Depois, abra um **Pull Request** para `develop`. Após revisão e aprovação, o merge é feito.
+
+> A branch `main` está protegida no GitHub: só recebe merge via PR com revisão.
+
+---
+
+## Equipe
+
+### Grupo de Frontend
+
+| Nome | GitHub | Função |
+|------|--------|--------|
+| Gabriela Almeida | [@gabriela-data](https://github.com/gabriela-data) | Desenvolvedor(a) Frontend |
+| Davi Conceição | [@Davi-2405](https://github.com/Davi-2405) | Desenvolvedor(a) Frontend |
+| [Nome 3] | @usuario3 | Desenvolvedor(a) Frontend |
+
+### Grupo de Backend (parceiro)
+
+| Nome | GitHub |
+|------|--------|
+| [Nome 1] | @usuario1 |
+| [Nome 2] | @usuario2 |
+| [Nome 3] | @usuario3 |
+
+---
+
+## Contribuindo
+
+Antes de começar, leia a seção **[Padronização de Ambiente](#-padronização-de-ambiente-importante-para-a-equipe)** para garantir que sua máquina está configurada corretamente.
+
+1. Faça um `checkout` da branch `develop` e atualize-a: `git pull origin develop`
+2. Crie uma branch para sua feature: `git checkout -b feature/minha-feature`
+3. Garanta que está usando **Node 22**: `nvm use`
+4. Instale dependências de forma reprodutível: `npm ci`
+5. Commit suas mudanças seguindo o padrão: `git commit -m 'feat: adiciona nova feature'`
+   - Prefixos sugeridos: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `style:`, `test:`
+6. Push para a branch: `git push origin feature/minha-feature`
+7. Abra um **Pull Request** para `develop`
+8. Aguarde revisão de pelo menos um membro da equipe antes do merge
+
+> **Nunca commite o arquivo `.env`.** Use sempre o `.env.example` como referência.
+
+---
+
+## Licença
+
+Este projeto está sob a licença [MIT](https://opensource.org/licenses/MIT).
+
+---
+
+## Notas Finais
+
+- O projeto adotou **Vite 8** e **Tailwind CSS 4**, que são versões mais recentes do que o planejado inicialmente. Isso foi necessário porque o ambiente exige Node.js 22+ — e as versões novas trazem melhor performance e configuração simplificada.
+- O **Oxlint** substituiu o ESLint no template novo do Vite. Ele é mais rápido e cumpre a mesma função de padronização de código.
+- O Tailwind 4 **não usa mais `tailwind.config.js`**. As customizações do design system ficam dentro do `src/styles/global.css`, usando a diretiva `@theme`.
