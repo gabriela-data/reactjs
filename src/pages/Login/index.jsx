@@ -1,43 +1,67 @@
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import toast from 'react-hot-toast'
-import { useAuth } from '../../contexts/AuthContext'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from 'react-router-dom';
+import { Lock, Mail } from 'lucide-react';
+import Input from '../../components/Input';
+import { useAuth } from '../../contexts/auth';
+import { notify } from '../../services/notification';
+import loginSchema from '../../schemas/loginSchema';
 
 export default function Login() {
-  const { register, handleSubmit, formState: { errors } } = useForm()
-  const { login } = useAuth()
-  const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      email: '',
+      senha: '',
+    },
+  });
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      await login(data.email, data.senha)
-      toast.success('Bem-vindo(a)!')
-      navigate('/dashboard')
+      await login(data.email, data.senha);
+      notify.success('Bem-vindo(a)!');
+      navigate('/dashboard');
     } catch {
-      toast.error('E-mail ou senha inválidos')
+      notify.error('E-mail ou senha inválidos');
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form
         onSubmit={handleSubmit(onSubmit)}
+        noValidate
         className="bg-white p-8 rounded-xl shadow-md w-96 space-y-4"
       >
         <h1 className="text-2xl font-bold text-primary">CuidarVet 🐾</h1>
 
-        <input
+        <Input
+          id="email"
+          label="E-mail"
+          type="email"
           placeholder="E-mail"
-          {...register('email', { required: true })}
-          className="w-full border p-2 rounded"
+          icon={Mail}
+          error={errors.email?.message}
+          autoComplete="email"
+          {...register('email')}
         />
-        {errors.email && <span className="text-danger text-sm">Obrigatório</span>}
 
-        <input
+        <Input
+          id="senha"
+          label="Senha"
           type="password"
           placeholder="Senha"
-          {...register('senha', { required: true })}
-          className="w-full border p-2 rounded"
+          icon={Lock}
+          error={errors.senha?.message}
+          autoComplete="current-password"
+          {...register('senha')}
         />
 
         <button
@@ -48,5 +72,5 @@ export default function Login() {
         </button>
       </form>
     </div>
-  )
+  );
 }

@@ -1,7 +1,6 @@
-import { createContext, useContext, useState } from 'react';
+import { useState } from 'react';
 import api from '../services/api';
-
-const AuthContext = createContext({});
+import { AuthContext } from './auth';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
@@ -23,10 +22,10 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, isAuthenticated: !!user }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
-
-export const useAuth = () => useContext(AuthContext);
