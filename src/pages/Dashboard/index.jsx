@@ -39,7 +39,10 @@ export default function Dashboard() {
           Bem-vindo ao painel de gestão da clínica.
         </p>
       </header>
-      <section aria-label="Atalhos" className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <section
+        aria-label="Atalhos"
+        className="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+      >
         {shortcuts.map(({ to, title, text, icon: Icon }) => (
           <Link
             key={to}
@@ -51,9 +54,14 @@ export default function Dashboard() {
                 <span className="rounded-lg bg-primary/10 p-3 text-primary">
                   <Icon aria-hidden="true" className="size-6" />
                 </span>
-                <ArrowRight aria-hidden="true" className="size-5 text-gray-400 group-hover:text-primary" />
+                <ArrowRight
+                  aria-hidden="true"
+                  className="size-5 text-gray-400 group-hover:text-primary"
+                />
               </div>
-              <h2 className="mt-5 text-lg font-semibold text-gray-900">{title}</h2>
+              <h2 className="mt-5 text-lg font-semibold text-gray-900">
+                {title}
+              </h2>
               <p className="mt-1 text-sm text-gray-600">{text}</p>
             </Card>
           </Link>

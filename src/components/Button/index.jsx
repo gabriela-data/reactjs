@@ -1,10 +1,12 @@
 import { LoaderCircle } from 'lucide-react';
 
 const variants = {
-  primary: 'bg-primary text-white hover:bg-primary/90 focus-visible:outline-primary',
+  primary:
+    'bg-primary text-white hover:bg-primary/90 focus-visible:outline-primary',
   secondary:
     'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus-visible:outline-primary',
-  danger: 'bg-danger text-white hover:bg-danger/90 focus-visible:outline-danger',
+  danger:
+    'bg-danger text-white hover:bg-danger/90 focus-visible:outline-danger',
   ghost: 'text-gray-700 hover:bg-gray-100 focus-visible:outline-primary',
 };
 

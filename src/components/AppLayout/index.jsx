@@ -20,7 +20,12 @@ export default function AppLayout({ children }) {
     <div className="min-h-screen md:flex">
       <Sidebar />
       <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-        <Topbar breadcrumbs={[{ label: 'Início', to: '/dashboard' }, { label: title }]} />
+        <Topbar
+          breadcrumbs={[
+            { label: 'Início', to: '/dashboard' },
+            { label: title },
+          ]}
+        />
         <main className="w-full flex-1 px-4 py-6 sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-7xl">{children}</div>
         </main>

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Lock, Mail, UserRound } from 'lucide-react';
+import { Mail, UserRound } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
@@ -20,13 +20,20 @@ export default function Cadastro() {
     defaultValues: { nome: '', email: '', senha: '', confirmarSenha: '' },
   });
 
-  const onSubmit = async ({ confirmarSenha, ...user }) => {
+  const onSubmit = async (values) => {
+    const user = {
+      nome: values.nome,
+      email: values.email,
+      senha: values.senha,
+    };
     try {
       await registerUser(user);
       notify.success('Cadastro realizado. Faça login para continuar.');
       navigate('/login', { replace: true });
     } catch (error) {
-      notify.error(getApiErrorMessage(error, 'Não foi possível concluir o cadastro.'));
+      notify.error(
+        getApiErrorMessage(error, 'Não foi possível concluir o cadastro.')
+      );
     }
   };
 
@@ -41,13 +48,50 @@ export default function Cadastro() {
           <h1 className="text-2xl font-bold text-primary">Criar conta</h1>
           <p className="text-sm text-gray-600">Cadastre-se no CuidarVet.</p>
         </header>
-        <Input id="nome" label="Nome completo" icon={UserRound} autoComplete="name" error={errors.nome?.message} {...register('nome')} />
-        <Input id="email" label="E-mail" type="email" icon={Mail} autoComplete="email" error={errors.email?.message} {...register('email')} />
-        <Input id="senha" label="Senha" type="password" autoComplete="new-password" error={errors.senha?.message} {...register('senha')} />
-        <Input id="confirmarSenha" label="Confirmar senha" type="password" autoComplete="new-password" error={errors.confirmarSenha?.message} {...register('confirmarSenha')} />
-        <Button type="submit" loading={isSubmitting} className="w-full">Criar conta</Button>
+        <Input
+          id="nome"
+          label="Nome completo"
+          icon={UserRound}
+          autoComplete="name"
+          error={errors.nome?.message}
+          {...register('nome')}
+        />
+        <Input
+          id="email"
+          label="E-mail"
+          type="email"
+          icon={Mail}
+          autoComplete="email"
+          error={errors.email?.message}
+          {...register('email')}
+        />
+        <Input
+          id="senha"
+          label="Senha"
+          type="password"
+          autoComplete="new-password"
+          error={errors.senha?.message}
+          {...register('senha')}
+        />
+        <Input
+          id="confirmarSenha"
+          label="Confirmar senha"
+          type="password"
+          autoComplete="new-password"
+          error={errors.confirmarSenha?.message}
+          {...register('confirmarSenha')}
+        />
+        <Button type="submit" loading={isSubmitting} className="w-full">
+          Criar conta
+        </Button>
         <p className="text-center text-sm text-gray-600">
-          Já tem conta? <Link to="/login" className="font-medium text-primary hover:underline">Entrar</Link>
+          Já tem conta?{' '}
+          <Link
+            to="/login"
+            className="font-medium text-primary hover:underline"
+          >
+            Entrar
+          </Link>
         </p>
       </form>
     </main>

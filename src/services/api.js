@@ -23,7 +23,12 @@ api.interceptors.response.use(
     const request = error.config;
     const status = error.response?.status;
 
-    if (status !== 401 || !request || request.skipAuthRefresh || request._retry) {
+    if (
+      status !== 401 ||
+      !request ||
+      request.skipAuthRefresh ||
+      request._retry
+    ) {
       return Promise.reject(error);
     }
 
@@ -38,11 +43,7 @@ api.interceptors.response.use(
 
     request._retry = true;
     refreshRequest ??= axios
-      .post(
-        `${baseURL}/auth/refresh`,
-        { refreshToken },
-        { timeout: 10000 }
-      )
+      .post(`${baseURL}/auth/refresh`, { refreshToken }, { timeout: 10000 })
       .then(({ data }) => {
         const token = data?.token ?? data?.accessToken;
         const nextRefreshToken = data?.refreshToken ?? refreshToken;

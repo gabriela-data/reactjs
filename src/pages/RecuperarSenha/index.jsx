@@ -26,9 +26,13 @@ export default function RecuperarSenha() {
   const onSubmit = async ({ email }) => {
     try {
       await requestPasswordReset(email);
-      notify.success('Se o e-mail estiver cadastrado, você receberá as instruções.');
+      notify.success(
+        'Se o e-mail estiver cadastrado, você receberá as instruções.'
+      );
     } catch (error) {
-      notify.error(getApiErrorMessage(error, 'Não foi possível solicitar a recuperação.'));
+      notify.error(
+        getApiErrorMessage(error, 'Não foi possível solicitar a recuperação.')
+      );
     }
   };
 
@@ -45,7 +49,15 @@ export default function RecuperarSenha() {
             Informe o e-mail associado à sua conta.
           </p>
         </header>
-        <Input id="email" label="E-mail" type="email" icon={Mail} autoComplete="email" error={errors.email?.message} {...register('email')} />
+        <Input
+          id="email"
+          label="E-mail"
+          type="email"
+          icon={Mail}
+          autoComplete="email"
+          error={errors.email?.message}
+          {...register('email')}
+        />
         <Button type="submit" loading={isSubmitting} className="w-full">
           Enviar instruções
         </Button>
@@ -55,7 +67,10 @@ export default function RecuperarSenha() {
           </p>
         )}
         <p className="text-center text-sm">
-          <Link to="/login" className="font-medium text-primary hover:underline">
+          <Link
+            to="/login"
+            className="font-medium text-primary hover:underline"
+          >
             Voltar para o login
           </Link>
         </p>
