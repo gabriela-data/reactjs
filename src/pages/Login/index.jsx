@@ -2,8 +2,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Mail } from 'lucide-react';
+import Button from '../../components/Button';
 import Input from '../../components/Input';
 import { useAuth } from '../../contexts/auth';
+import { getApiErrorMessage } from '../../services/errors';
 import { notify } from '../../services/notification';
 import loginSchema from '../../schemas/loginSchema';
 
@@ -28,8 +30,8 @@ export default function Login() {
       await login(data.email, data.senha);
       notify.success('Bem-vindo(a)!');
       navigate('/dashboard');
-    } catch {
-      notify.error('E-mail ou senha inválidos');
+    } catch (error) {
+      notify.error(getApiErrorMessage(error, 'E-mail ou senha inválidos.'));
     }
   };
 
@@ -38,9 +40,12 @@ export default function Login() {
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
-        className="bg-white p-8 rounded-xl shadow-md w-96 space-y-4"
+        className="w-full max-w-sm space-y-5 rounded-xl bg-white p-8 shadow-md"
       >
-        <h1 className="text-2xl font-bold text-primary">CuidarVet 🐾</h1>
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold text-primary">CuidarVet</h1>
+          <p className="text-sm text-gray-600">Entre na sua conta para continuar.</p>
+        </div>
 
         <Input
           id="email"
@@ -64,12 +69,24 @@ export default function Login() {
           {...register('senha')}
         />
 
-        <button
+        <Button
           type="submit"
-          className="w-full bg-primary text-white py-2 rounded hover:opacity-90"
+          loading={formState.isSubmitting}
+          className="w-full"
         >
           Entrar
-        </button>
+        </Button>
+        <nav className="flex flex-col gap-2 text-center text-sm">
+          <a href="/recuperar-senha" className="text-primary hover:underline">
+            Esqueci minha senha
+          </a>
+          <p className="text-gray-600">
+            Ainda não tem conta?{' '}
+            <a href="/cadastro" className="font-medium text-primary hover:underline">
+              Cadastre-se
+            </a>
+          </p>
+        </nav>
       </form>
     </div>
   );
