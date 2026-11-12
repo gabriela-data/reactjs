@@ -27,9 +27,9 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
-      await login(data.email, data.senha);
+      const user = await login(data.email, data.senha);
       notify.success('Bem-vindo(a)!');
-      navigate('/dashboard');
+      navigate(user?.role === 'admin' ? '/dashboard' : '/perfil');
     } catch (error) {
       notify.error(getApiErrorMessage(error, 'E-mail ou senha inválidos.'));
     }

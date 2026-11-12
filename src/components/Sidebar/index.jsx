@@ -13,22 +13,41 @@ import {
 import { useAuth } from '../../contexts/auth';
 
 const defaultItems = [
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/usuarios', label: 'Usuários', icon: UsersRound },
   { to: '/perfil', label: 'Meu perfil', icon: UserRound },
   { to: '/configuracoes', label: 'Configurações', icon: Settings },
+  {
+    to: '/dashboard',
+    label: 'Dashboard',
+    icon: LayoutDashboard,
+    adminOnly: true,
+  },
+  {
+    to: '/usuarios',
+    label: 'Usuários',
+    icon: UsersRound,
+    adminOnly: true,
+  },
 ];
 
 export default function Sidebar({
   items = defaultItems,
   brandName = 'CuidarVet',
-  brandTo = '/dashboard',
+  brandTo,
   logo,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const menuId = useId();
-  const { logout } = useAuth();
+  const { logout, user, isAdmin } = useAuth();
   const navigate = useNavigate();
+  const visibleItems = items.filter((item) => !item.adminOnly || isAdmin);
+  const homePath = brandTo ?? (isAdmin ? '/dashboard' : '/perfil');
+  const userName = user?.nome?.trim() || user?.name?.trim() || 'Usuário';
+  const roleLabel =
+    user?.role === 'admin'
+      ? 'Administrador'
+      : user?.role === 'user'
+        ? 'Usuário'
+        : (user?.role ?? 'Usuário');
 
   const closeMenu = () => setIsOpen(false);
 
@@ -45,7 +64,7 @@ export default function Sidebar({
     >
       <header className="flex h-20 shrink-0 items-center justify-between gap-3 px-5">
         <Link
-          to={brandTo}
+          to={homePath}
           onClick={closeMenu}
           aria-label={`${brandName} - inicio`}
           className="flex min-w-0 items-center gap-3 rounded text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
@@ -82,7 +101,7 @@ export default function Sidebar({
           className="min-h-0 flex-1 overflow-y-auto px-3 py-4"
         >
           <ul className="space-y-1">
-            {items.map(({ to, label, icon: Icon, end = false }) => (
+            {visibleItems.map(({ to, label, icon: Icon, end = false }) => (
               <li key={to}>
                 <NavLink
                   to={to}
@@ -107,6 +126,12 @@ export default function Sidebar({
         </nav>
 
         <footer className="shrink-0 border-t border-gray-200 p-3">
+          <div className="truncate px-3 pb-3">
+            <p className="truncate text-sm font-medium text-gray-900">
+              {userName}
+            </p>
+            <p className="truncate text-xs text-gray-500">{roleLabel}</p>
+          </div>
           <button
             type="button"
             onClick={handleLogout}

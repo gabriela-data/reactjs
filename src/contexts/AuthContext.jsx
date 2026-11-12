@@ -6,6 +6,7 @@ import {
   getStoredToken,
   getStoredUser,
   getTokenExpiry,
+  normalizeUser,
   subscribeToSessionChange,
 } from '../utils/authStorage';
 import { AuthContext } from './auth';
@@ -26,13 +27,23 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, senha) => {
-    await loginRequest({ email, senha });
+    const authenticatedUser = await loginRequest({ email, senha });
     syncSession();
+    return authenticatedUser;
   };
 
   const updateUser = (nextUser) => {
     if (!nextUser) return;
-    localStorage.setItem('@vet:user', JSON.stringify(nextUser));
+    localStorage.setItem(
+      '@vet:user',
+      JSON.stringify(
+        normalizeUser({
+          ...user,
+          ...nextUser,
+          role: nextUser.role ?? user?.role ?? 'user',
+        })
+      )
+    );
     syncSession();
   };
 
@@ -63,11 +74,13 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
+        role: user?.role ?? 'user',
         token,
         login,
         logout,
         updateUser,
         isAuthenticated: Boolean(token),
+        isAdmin: user?.role === 'admin',
       }}
     >
       {children}

@@ -6,6 +6,8 @@ import {
   getStoredUser,
   saveSession,
 } from '../utils/authStorage';
+import { isDevelopmentAuthBypass } from '../utils/devAuth';
+import { notify } from './notification';
 
 const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 const api = axios.create({ baseURL, timeout: 10000 });
@@ -22,6 +24,15 @@ api.interceptors.response.use(
   async (error) => {
     const request = error.config;
     const status = error.response?.status;
+
+    if (status === 403) {
+      notify.error('Você não tem permissão para acessar este recurso.');
+      return Promise.reject(error);
+    }
+
+    if (isDevelopmentAuthBypass && status === 401) {
+      return Promise.reject(error);
+    }
 
     if (
       status !== 401 ||

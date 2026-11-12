@@ -11,7 +11,7 @@ function persistAuthResponse(data) {
   const user = body?.user ?? body?.usuario;
   const refreshToken = body?.refreshToken ?? body?.refresh_token;
   saveSession({ token, refreshToken, user: user ?? null });
-  return user ?? null;
+  return getStoredUser();
 }
 
 export async function login(credentials) {
