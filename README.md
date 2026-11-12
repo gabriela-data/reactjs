@@ -277,6 +277,8 @@ Existe um arquivo `.env.example` no repositório como referência. **Nunca versi
 npm run dev
 ```
 
+No servidor de desenvolvimento do Vite, as rotas privadas ficam acessíveis sem login, mas as áreas administrativas continuam exigindo `role: "admin"`. Para testar a navegação administrativa antes de o backend estar pronto, abra o console do navegador e execute `localStorage.setItem('@vet:user', JSON.stringify({ nome: 'Admin de teste', role: 'admin' }))`, depois recarregue a página. Esse mock é somente para desenvolvimento e não substitui autenticação nem autorização no backend. Builds de produção continuam exigindo autenticação; as telas que consultam dados da API também precisam do backend em execução.
+
 A aplicação estará disponível em: [http://localhost:5173](http://localhost:5173)
 
 ### Build de produção

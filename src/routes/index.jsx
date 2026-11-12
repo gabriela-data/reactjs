@@ -4,32 +4,52 @@ import { useAuth } from '../contexts/auth';
 import Cadastro from '../pages/Cadastro';
 import Configuracoes from '../pages/Configuracoes';
 import Dashboard from '../pages/Dashboard';
+import Forbidden from '../pages/Forbidden';
 import Formulario from '../pages/Formulario';
 import ListagemUsuarios from '../pages/ListagemUsuarios';
 import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
 import Perfil from '../pages/Perfil';
 import RecuperarSenha from '../pages/RecuperarSenha';
+import AdminRoute from './AdminRoute';
+import { isDevelopmentAuthBypass } from '../utils/devAuth';
 
 function PrivateRoute() {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+  return isDevelopmentAuthBypass || isAuthenticated ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" replace />
+  );
 }
 
 function PublicRoute() {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Outlet />;
+  const { isAuthenticated, isAdmin } = useAuth();
+  return isAuthenticated ? (
+    <Navigate to={isAdmin ? '/dashboard' : '/perfil'} replace />
+  ) : (
+    <Outlet />
+  );
 }
 
 export default function AppRoutes() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
 
   return (
     <Routes>
       <Route
         path="/"
         element={
-          <Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />
+          <Navigate
+            to={
+              isAdmin
+                ? '/dashboard'
+                : isAuthenticated || isDevelopmentAuthBypass
+                  ? '/perfil'
+                  : '/login'
+            }
+            replace
+          />
         }
       />
       <Route element={<PublicRoute />}>
@@ -45,12 +65,15 @@ export default function AppRoutes() {
             </AppLayout>
           }
         >
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/usuarios" element={<ListagemUsuarios />} />
-          <Route path="/usuarios/novo" element={<Formulario />} />
-          <Route path="/usuarios/:id/editar" element={<Formulario />} />
+          <Route element={<AdminRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/usuarios" element={<ListagemUsuarios />} />
+            <Route path="/usuarios/novo" element={<Formulario />} />
+            <Route path="/usuarios/:id/editar" element={<Formulario />} />
+          </Route>
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
+          <Route path="/403" element={<Forbidden />} />
         </Route>
       </Route>
       <Route path="/404" element={<NotFound />} />

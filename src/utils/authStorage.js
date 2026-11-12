@@ -3,6 +3,28 @@ const REFRESH_TOKEN_KEY = '@vet:refreshToken';
 const USER_KEY = '@vet:user';
 const SESSION_EVENT = 'cuidarvet:session';
 
+export function normalizeUser(user) {
+  if (!user || typeof user !== 'object') return null;
+
+  const normalizedUser = { ...user };
+  if (typeof normalizedUser.role !== 'string' || !normalizedUser.role.trim()) {
+    normalizedUser.role = 'user';
+    if (import.meta.env.DEV) {
+      console.warn(
+        'A API não retornou o papel do usuário; usando "user" temporariamente.'
+      );
+    }
+  } else if (!['admin', 'user'].includes(normalizedUser.role)) {
+    if (import.meta.env.DEV) {
+      console.warn(
+        `A API retornou um papel não esperado: "${normalizedUser.role}".`
+      );
+    }
+  }
+
+  return normalizedUser;
+}
+
 function emitSessionChange() {
   window.dispatchEvent(new Event(SESSION_EVENT));
 }
@@ -20,7 +42,11 @@ export function getStoredUser() {
   if (!stored) return null;
 
   try {
-    return JSON.parse(stored);
+    const user = normalizeUser(JSON.parse(stored));
+    if (user && JSON.stringify(user) !== stored) {
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+    }
+    return user;
   } catch {
     clearSession();
     return null;
@@ -36,7 +62,7 @@ export function saveSession({ token, refreshToken, user }) {
   } else {
     localStorage.removeItem(REFRESH_TOKEN_KEY);
   }
-  if (user) localStorage.setItem(USER_KEY, JSON.stringify(user));
+  if (user) localStorage.setItem(USER_KEY, JSON.stringify(normalizeUser(user)));
   else if (user === null) localStorage.removeItem(USER_KEY);
   emitSessionChange();
 }
