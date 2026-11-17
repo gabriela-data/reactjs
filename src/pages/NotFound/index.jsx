@@ -2,7 +2,17 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/auth';
 
 export default function NotFound() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
+  const returnPath = isAuthenticated
+    ? isAdmin
+      ? '/dashboard'
+      : '/perfil'
+    : '/login';
+  const returnLabel = isAuthenticated
+    ? isAdmin
+      ? 'Voltar para o dashboard'
+      : 'Voltar para o meu perfil'
+    : 'Voltar para o login';
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-100 px-6">
@@ -17,10 +27,10 @@ export default function NotFound() {
           O endereço informado não existe ou foi removido.
         </p>
         <Link
-          to={isAuthenticated ? '/dashboard' : '/login'}
+          to={returnPath}
           className="inline-flex rounded-lg bg-primary px-4 py-2 font-medium text-white transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
-          Voltar para o login
+          {returnLabel}
         </Link>
       </section>
     </main>
