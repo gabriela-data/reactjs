@@ -22,15 +22,22 @@ export default function AppLayout({ children }) {
 
   return (
     <div className="min-h-screen md:flex">
+      <a
+        href="#conteudo-principal"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-3 focus:font-medium focus:text-white focus:outline-2 focus:outline-offset-2 focus:outline-primary"
+      >
+        Pular para o conteúdo
+      </a>
       <Sidebar />
       <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         <Topbar
-          breadcrumbs={[
-            { label: 'Início', to: homePath },
-            { label: title },
-          ]}
+          breadcrumbs={[{ label: 'Início', to: homePath }, { label: title }]}
         />
-        <main className="w-full flex-1 px-4 py-6 sm:px-6 lg:px-8">
+        <main
+          id="conteudo-principal"
+          tabIndex={-1}
+          className="w-full flex-1 px-4 py-6 focus:outline-none sm:px-6 lg:px-8"
+        >
           <div className="mx-auto w-full max-w-7xl">{children}</div>
         </main>
       </div>
