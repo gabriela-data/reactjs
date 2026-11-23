@@ -1,4 +1,5 @@
-# 🐾 CuidarVet — Frontend 
+# 🐾 CuidarVet — Frontend
+
 (React + Vite)
 
 ## Sobre o Projeto
@@ -39,17 +40,17 @@ Todos os protótipos de interface (UI/UX) do sistema foram desenvolvidos no **Fi
 
 ### Telas prototipadas
 
-| Tela | Descrição | Preview | Link |
-|------|-----------|---------|------|
-| Login | Tela de autenticação com e-mail/senha, "lembrar-me" e login social | Login | Ver no Figma |
-| Cadastro | Formulário de criação de conta com validação | Cadastro | Ver no Figma |
-| Recuperar Senha | Fluxo de recuperação de senha por e-mail | Recuperar Senha | Ver no Figma |
-| Home / Dashboard | Painel principal após autenticação | Dashboard | Ver no Figma |
-| Listagem | Tabela com paginação, filtros e busca | Listagem | Ver no Figma |
-| Formulário de Cadastro/Edição | Criação e edição de registros | Formulário | Ver no Figma |
-| Perfil do Usuário | Dados pessoais e preferências | Perfil | Ver no Figma |
-| Configurações | Ajustes do sistema | Configurações | Ver no Figma |
-| 404 / Erro | Página de erro personalizada | 404 | Ver no Figma |
+| Tela                          | Descrição                                                          | Preview         | Link         |
+| ----------------------------- | ------------------------------------------------------------------ | --------------- | ------------ |
+| Login                         | Tela de autenticação com e-mail/senha, "lembrar-me" e login social | Login           | Ver no Figma |
+| Cadastro                      | Formulário de criação de conta com validação                       | Cadastro        | Ver no Figma |
+| Recuperar Senha               | Fluxo de recuperação de senha por e-mail                           | Recuperar Senha | Ver no Figma |
+| Home / Dashboard              | Painel principal após autenticação                                 | Dashboard       | Ver no Figma |
+| Listagem                      | Tabela com paginação, filtros e busca                              | Listagem        | Ver no Figma |
+| Formulário de Cadastro/Edição | Criação e edição de registros                                      | Formulário      | Ver no Figma |
+| Perfil do Usuário             | Dados pessoais e preferências                                      | Perfil          | Ver no Figma |
+| Configurações                 | Ajustes do sistema                                                 | Configurações   | Ver no Figma |
+| 404 / Erro                    | Página de erro personalizada                                       | 404             | Ver no Figma |
 
 ### Design System
 
@@ -104,19 +105,20 @@ Recuperar Senha → E-mail enviado → Redefinir Senha → Login
 
 ## Tecnologias Utilizadas
 
-| Tecnologia | Versão | Descrição |
-|-----------|--------|-----------|
-| [React](https://react.dev/) | 19.x | Biblioteca para construção de interfaces |
-| [Vite](https://vitejs.dev/) | 8.x | Build tool e dev server |
-| [React Router DOM](https://reactrouter.com/) | 7.x | Roteamento SPA |
-| [Axios](https://axios-http.com/) | 1.x | Cliente HTTP para consumir a API |
-| [Tailwind CSS](https://tailwindcss.com/) | 4.x | Estilização utilitária |
-| [Context API](https://react.dev/reference/react/useContext) | — | Gerenciamento de estado global |
-| [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) | — | Formulários e validação |
-| [React Hot Toast](https://react-hot-toast.com/) | — | Notificações (toasts) |
-| [Lucide React](https://lucide.dev/) | — | Ícones |
-| [Oxlint](https://oxc.rs/docs/guide/usage/linter.html) | — | Linter (substitui ESLint no template novo do Vite) |
-| [Figma](https://www.figma.com/) | — | Prototipagem e Design System |
+| Tecnologia                                                                | Versão | Descrição                                    |
+| ------------------------------------------------------------------------- | ------ | -------------------------------------------- |
+| [React](https://react.dev/)                                               | 19.x   | Biblioteca para construção de interfaces     |
+| [Vite](https://vitejs.dev/)                                               | 8.x    | Build tool e dev server                      |
+| [React Router DOM](https://reactrouter.com/)                              | 7.x    | Roteamento SPA                               |
+| [Axios](https://axios-http.com/)                                          | 1.x    | Cliente HTTP para consumir a API             |
+| [Tailwind CSS](https://tailwindcss.com/)                                  | 4.x    | Estilização utilitária                       |
+| [Context API](https://react.dev/reference/react/useContext)               | —      | Gerenciamento de estado global               |
+| [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) | —      | Formulários e validação                      |
+| [React Hot Toast](https://react-hot-toast.com/)                           | —      | Notificações (toasts)                        |
+| [Lucide React](https://lucide.dev/)                                       | —      | Ícones                                       |
+| [ESLint](https://eslint.org/)                                             | 10.x   | Verificação de JavaScript, JSX e React Hooks |
+| [Oxlint](https://oxc.rs/docs/guide/usage/linter.html)                     | —      | Verificação adicional e rápida de código     |
+| [Figma](https://www.figma.com/)                                           | —      | Prototipagem e Design System                 |
 
 ---
 
@@ -145,21 +147,19 @@ nvm use        # ativa a versão do .nvmrc
 }
 ```
 
-Para que essa faixa seja **obrigatória** (bloqueando instalações fora dela), existe um `.npmrc` com:
+Use Node 22 e npm 10 ou superior em todas as instalações. O campo `engines`
+documenta as versões compatíveis; sem `engine-strict`, o npm pode apenas emitir
+um aviso quando a versão não corresponde. Para exigir essa verificação na sua
+máquina, configure o npm com:
 
+```bash
+npm config set engine-strict true --location=user
 ```
-engine-strict=true
-```
 
-Se alguém tentar rodar `npm install` com Node 18, o npm **recusa** e pede para atualizar.
+### Gerenciador de pacotes
 
-### Gerenciador de pacotes — `packageManager`
-
-O `package.json` define o gerenciador padrão:
-
-```json
-"packageManager": "npm@10.9.9"
-```
+Use npm 10 ou superior e mantenha `package-lock.json` versionado. O projeto
+não define uma versão exata de npm no campo `packageManager`.
 
 ### Quebras de linha — `.gitattributes`
 
@@ -192,31 +192,28 @@ npm ci
 
 ## Integração com o Backend
 
-Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js**.
+Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js (NestJS)**.
 
 - **Repositório do Backend:** [github.com/vitormsantos1/React.Node-backend](https://github.com/vitormsantos1/React.Node-backend)
-- **URL base da API (dev):** `http://localhost:3000/api`
-- **Documentação da API:** [Swagger/Postman](https://link-da-doc)
+- **URL base da API (produção / Render):** `https://vet-7uu3.onrender.com`
+- **URL base da API (local):** `http://localhost:3002`
+- **Documentação da API (Swagger):** [https://vet-7uu3.onrender.com/docs](https://vet-7uu3.onrender.com/docs)
 
-### Endpoints principais consumidos
+### Endpoints consumidos
 
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| `POST` | `/auth/login` | Autenticação de usuário |
-| `POST` | `/auth/register` | Cadastro de novo usuário |
-| `POST` | `/auth/forgot-password` | Solicitar recuperação de senha |
-| `POST` | `/auth/refresh` | Renovar o token de acesso |
-| `POST` | `/usuarios` | Criar usuário |
-| `GET` | `/usuarios` | Listar usuários |
-| `GET` | `/usuarios/:id` | Buscar usuário por ID |
-| `PUT` | `/usuarios/:id` | Atualizar usuário |
-| `DELETE` | `/usuarios/:id` | Remover usuário |
+| Método   | Endpoint                | Payload / Resposta                              | Descrição                                      |
+| -------- | ----------------------- | ----------------------------------------------- | ---------------------------------------------- |
+| `POST`   | `/auth/login`           | `{ email, password }` → `{ access_token }`      | Autenticação de usuário                        |
+| `POST`   | `/auth/forgot-password` | `{ email }` → `{ message }`                     | Solicitar código de recuperação de senha       |
+| `POST`   | `/auth/reset-password`  | `{ token, password }` → `{ message }`           | Redefinir senha usando o código                |
+| `GET`    | `/users/me`             | Bearer JWT → `{ id, name?, email, role }`       | Dados do usuário autenticado                   |
+| `POST`   | `/users`                | `{ name, email, password }` → `ResponseUserDto` | Criar novo usuário (cadastro público ou admin) |
+| `GET`    | `/users`                | Bearer JWT (`ADMIN`) → `ResponseUserDto[]`      | Listar usuários (busca e paginação no cliente) |
+| `GET`    | `/users/:id`            | Bearer JWT (próprio usuário ou `ADMIN`)         | Buscar usuário por ID                          |
+| `PATCH`  | `/users/:id`            | `{ name?, email? }`                             | Atualizar dados do usuário                     |
+| `DELETE` | `/users/:id`            | Bearer JWT (próprio usuário ou `ADMIN`)         | Remover usuário                                |
 
-> **Importante:** O backend precisa estar em execução localmente para que o frontend funcione corretamente em ambiente de desenvolvimento.
-
-O frontend envia `email` e `senha` para o login; o cadastro envia `nome`, `email` e `senha`. A listagem envia os parâmetros `page`, `limit` e `search`, e aceita uma lista simples ou uma resposta paginada com `usuarios`, `users`, `items` ou `data` e o total correspondente.
-
-> **Contrato a confirmar com o grupo de backend:** os endpoints `/auth/forgot-password` e `/auth/refresh`, os nomes dos campos, a forma de devolver o usuário/token e os parâmetros de paginação não constavam na documentação disponível quando este frontend foi implementado. Ajuste `src/services/auth.js`, `src/services/api.js` e `src/services/users.js` se o backend usar outro contrato. A tela de configurações salva preferências somente no navegador; não pressupõe endpoint de configurações.
+> **Observação:** Os papéis retornados pelo backend (`ADMIN` / `USER`) são normalizados no frontend para `admin` / `user`. A tela de configurações salva preferências somente no navegador.
 
 ---
 
@@ -227,7 +224,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
 - [Node.js 22.x](https://nodejs.org/) (LTS) — use `nvm`, `nvm-windows` ou `fnm`
 - [npm](https://www.npmjs.com/) 10.x ou superior
 - [Git](https://git-scm.com/)
-- O **backend em Node.js** rodando localmente
+- A API configurada em `VITE_API_URL` disponível (Render ou backend local)
 
 ---
 
@@ -261,7 +258,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
 Crie um arquivo `.env` na raiz do projeto com base no exemplo:
 
 ```env
-VITE_API_URL=http://localhost:3000/api
+VITE_API_URL=https://vet-7uu3.onrender.com
 VITE_APP_NAME=CuidarVet
 ```
 
@@ -277,7 +274,12 @@ Existe um arquivo `.env.example` no repositório como referência. **Nunca versi
 npm run dev
 ```
 
-No servidor de desenvolvimento do Vite, as rotas privadas ficam acessíveis sem login, mas as áreas administrativas continuam exigindo `role: "admin"`. Para testar a navegação administrativa antes de o backend estar pronto, abra o console do navegador e execute `localStorage.setItem('@vet:user', JSON.stringify({ nome: 'Admin de teste', role: 'admin' }))`, depois recarregue a página. Esse mock é somente para desenvolvimento e não substitui autenticação nem autorização no backend. Builds de produção continuam exigindo autenticação; as telas que consultam dados da API também precisam do backend em execução.
+As rotas privadas exigem login por padrão, inclusive no servidor de
+desenvolvimento. Para testar somente o layout sem autenticação, adicione
+`VITE_DEV_AUTH_BYPASS=true` ao `.env.local` e reinicie o Vite. O bypass é ignorado
+nos builds de produção; áreas administrativas continuam exigindo um usuário com
+papel `admin`, e consultas à API continuam sujeitas à autorização do backend.
+Não use esse modo para validar login, sessão ou permissões reais.
 
 A aplicação estará disponível em: [http://localhost:5173](http://localhost:5173)
 
@@ -333,7 +335,6 @@ reactjs/
 ├── .env.example
 ├── .gitattributes
 ├── .gitignore
-├── .npmrc
 ├── .nvmrc
 ├── index.html
 ├── package.json
@@ -346,60 +347,69 @@ reactjs/
 
 ## Scripts Disponíveis
 
-| Script | Descrição |
-|--------|-----------|
-| `npm run dev` | Inicia o servidor de desenvolvimento |
-| `npm run build` | Gera build otimizada para produção |
-| `npm run preview` | Pré-visualiza a build de produção |
-| `npm run lint` | Executa o Oxlint |
-| `npm run format` | Formata o código com Prettier |
+| Script                 | Descrição                               |
+| ---------------------- | --------------------------------------- |
+| `npm run dev`          | Inicia o servidor de desenvolvimento    |
+| `npm run build`        | Gera build otimizada para produção      |
+| `npm run preview`      | Pré-visualiza a build de produção       |
+| `npm run lint`         | Executa ESLint, incluindo React Hooks   |
+| `npm run lint:fast`    | Executa o Oxlint                        |
+| `npm run format:check` | Confere formatação sem alterar arquivos |
+| `npm run format`       | Formata o código com Prettier           |
 
 ---
 
+## Verificações automáticas
+
+O workflow `.github/workflows/ci.yml` verifica PRs para `develop` e `main` e
+pushes nessas branches. Ele usa Node 22, instala o lockfile com `npm ci` e
+executa ESLint, Oxlint, Prettier e build. As verificações não substituem a
+revisão da equipe nem os testes com a API real.
+
+Antes de abrir um PR, execute os mesmos comandos:
+
+```bash
+npm run lint
+npm run lint:fast
+npm run format:check
+npm run build
+```
+
 ## Consumo da API
 
-Exemplo de configuração do Axios em `src/services/api.js`:
+Use a instância compartilhada de `src/services/api.js`. Ela usa `VITE_API_URL`
+(com fallback para a API do Render), timeout de 45 segundos e os interceptores
+de sessão. Evite criar clientes paralelos sem esses interceptores.
 
 ```js
-import axios from 'axios'
+import api from './services/api';
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  timeout: 10000,
-})
-
-// Interceptor para adicionar token JWT automaticamente
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('@vet:token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
-
-export default api
+const { data } = await api.get('/users/me');
 ```
 
 Exemplo de uso em um componente:
 
 ```jsx
-import { useEffect, useState } from 'react'
-import api from '../services/api'
+import { useEffect, useState } from 'react';
+import api from '../services/api';
 
 export default function ListaUsuarios() {
-  const [usuarios, setUsuarios] = useState([])
+  const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
-    api.get('/usuarios')
+    api
+      .get('/users')
       .then((response) => setUsuarios(response.data))
-      .catch((error) => console.error(error))
-  }, [])
+      .catch((error) => console.error(error));
+  }, []);
 
   return (
     <ul>
-      {usuarios.map((u) => <li key={u.id}>{u.nome}</li>)}
+      {usuarios.map((u) => (
+        <li key={u.id}>{u.name}</li>
+      ))}
     </ul>
-  )
+  );
 }
 ```
 
@@ -409,11 +419,11 @@ export default function ListaUsuarios() {
 
 Para manter o repositório organizado e evitar conflitos entre a equipe:
 
-| Branch | Propósito |
-|--------|-----------|
-| `main` | Versão estável. Recebe apenas merges via Pull Request. |
-| `develop` | Branch de integração. Todo trabalho da equipe é reunido aqui antes de ir para `main`. |
-| `feature/nome-da-tarefa` | Branches curtas para cada funcionalidade ou correção. Saem de `develop`. |
+| Branch                   | Propósito                                                                             |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `main`                   | Versão estável. Recebe apenas merges via Pull Request.                                |
+| `develop`                | Branch de integração. Todo trabalho da equipe é reunido aqui antes de ir para `main`. |
+| `feature/nome-da-tarefa` | Branches curtas para cada funcionalidade ou correção. Saem de `develop`.              |
 
 ### Fluxo de trabalho
 
@@ -458,7 +468,9 @@ git push -u origin feature/sync-main-into-develop
 # Abra um PR de feature/sync-main-into-develop para develop
 ```
 
-> A branch `main` está protegida no GitHub: só recebe merge via PR com revisão.
+> Política da equipe: alterações na `main` devem passar por PR com revisão.
+> A proteção efetivamente configurada no GitHub deve ser conferida pelos
+> administradores do repositório.
 
 ---
 
@@ -466,16 +478,16 @@ git push -u origin feature/sync-main-into-develop
 
 ### Grupo de Frontend
 
-| Nome | GitHub | Função |
-|------|--------|--------|
+| Nome             | GitHub                                             | Função                    |
+| ---------------- | -------------------------------------------------- | ------------------------- |
 | Gabriela Almeida | [@gabriela-data](https://github.com/gabriela-data) | Desenvolvedor(a) Frontend |
-| Davi Conceição | [@Davi-2405](https://github.com/Davi-2405) | Desenvolvedor(a) Frontend |
-| [Nome 3] | @usuario3 | Desenvolvedor(a) Frontend |
+| Davi Conceição   | [@Davi-2405](https://github.com/Davi-2405)         | Desenvolvedor(a) Frontend |
+| [Nome 3]         | @usuario3                                          | Desenvolvedor(a) Frontend |
 
 ### Grupo de Backend (parceiro)
 
-| Nome | GitHub |
-|------|--------|
+| Nome     | GitHub    |
+| -------- | --------- |
 | [Nome 1] | @usuario1 |
 | [Nome 2] | @usuario2 |
 | [Nome 3] | @usuario3 |
@@ -509,5 +521,5 @@ Este projeto está sob a licença [MIT](https://opensource.org/licenses/MIT).
 ## Notas Finais
 
 - O projeto adotou **Vite 8** e **Tailwind CSS 4**, que são versões mais recentes do que o planejado inicialmente. Isso foi necessário porque o ambiente exige Node.js 22+ — e as versões novas trazem melhor performance e configuração simplificada.
-- O **Oxlint** substituiu o ESLint no template novo do Vite. Ele é mais rápido e cumpre a mesma função de padronização de código.
+- O **ESLint** verifica as regras de JavaScript e React. O **Oxlint** permanece disponível como verificação adicional em `npm run lint:fast`.
 - O Tailwind 4 **não usa mais `tailwind.config.js`**. As customizações do design system ficam dentro do `src/styles/global.css`, usando a diretiva `@theme`.

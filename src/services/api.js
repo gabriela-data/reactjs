@@ -9,9 +9,20 @@ import {
 import { isDevelopmentAuthBypass } from '../utils/devAuth';
 import { notify } from './notification';
 
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
-const api = axios.create({ baseURL, timeout: 10000 });
+const baseURL = (
+  import.meta.env.VITE_API_URL || 'https://vet-7uu3.onrender.com'
+).replace(/\/+$/, '');
+
+const api = axios.create({ baseURL, timeout: 45000 });
 let refreshRequest;
+
+const PUBLIC_PATHS = ['/login', '/cadastro', '/recuperar-senha'];
+
+function redirectToLoginIfNeeded() {
+  if (!PUBLIC_PATHS.includes(window.location.pathname)) {
+    window.location.assign('/login');
+  }
+}
 
 api.interceptors.request.use((config) => {
   const token = getStoredToken();
@@ -43,21 +54,30 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
+    // O backend NestJS lança 401 UnauthorizedException('usuário não autorizado')
+    // para erros de permissão em /users/:id; nesses casos a sessão ainda é válida.
+    const serverMessage = error.response?.data?.message;
+    if (
+      typeof serverMessage === 'string' &&
+      serverMessage.toLowerCase().includes('não autorizado')
+    ) {
+      return Promise.reject(error);
+    }
+
     const refreshToken = getStoredRefreshToken();
     if (!refreshToken) {
       clearSession();
-      if (window.location.pathname !== '/login') {
-        window.location.assign('/login');
-      }
+      redirectToLoginIfNeeded();
       return Promise.reject(error);
     }
 
     request._retry = true;
     refreshRequest ??= axios
-      .post(`${baseURL}/auth/refresh`, { refreshToken }, { timeout: 10000 })
+      .post(`${baseURL}/auth/refresh`, { refreshToken }, { timeout: 30000 })
       .then(({ data }) => {
-        const token = data?.token ?? data?.accessToken;
-        const nextRefreshToken = data?.refreshToken ?? refreshToken;
+        const token = data?.access_token ?? data?.token ?? data?.accessToken;
+        const nextRefreshToken =
+          data?.refresh_token ?? data?.refreshToken ?? refreshToken;
         saveSession({
           token,
           refreshToken: nextRefreshToken,
@@ -67,9 +87,7 @@ api.interceptors.response.use(
       })
       .catch((refreshError) => {
         clearSession();
-        if (window.location.pathname !== '/login') {
-          window.location.assign('/login');
-        }
+        redirectToLoginIfNeeded();
         throw refreshError;
       })
       .finally(() => {

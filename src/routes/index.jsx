@@ -68,8 +68,14 @@ export default function AppRoutes() {
           <Route element={<AdminRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/usuarios" element={<ListagemUsuarios />} />
-            <Route path="/usuarios/novo" element={<Formulario />} />
-            <Route path="/usuarios/:id/editar" element={<Formulario />} />
+            <Route
+              path="/usuarios/novo"
+              element={<Formulario key="new-user" />}
+            />
+            <Route
+              path="/usuarios/:id/editar"
+              element={<Formulario key="edit-user" />}
+            />
           </Route>
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/configuracoes" element={<Configuracoes />} />

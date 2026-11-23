@@ -6,7 +6,7 @@ import Card from '../../components/Card';
 import Input from '../../components/Input';
 import { useAuth } from '../../contexts/auth';
 import useUser from '../../hooks/useUser';
-import userSchema from '../../schemas/userSchema';
+import { updateUserSchema } from '../../schemas/userSchema';
 import { usersService } from '../../services/users';
 import { getApiErrorMessage } from '../../services/errors';
 import { notify } from '../../services/notification';
@@ -21,15 +21,16 @@ export default function Perfil() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm({ resolver: zodResolver(userSchema) });
+  } = useForm({
+    resolver: zodResolver(updateUserSchema),
+    defaultValues: { nome: '', email: '' },
+  });
 
   useEffect(() => {
     if (currentUser) {
       reset({
         nome: currentUser.nome ?? currentUser.name ?? '',
         email: currentUser.email ?? '',
-        telefone: currentUser.telefone ?? currentUser.phone ?? '',
-        tipo: currentUser.tipo ?? currentUser.role ?? '',
       });
     }
   }, [currentUser, reset]);
@@ -42,7 +43,10 @@ export default function Perfil() {
       return;
     }
     try {
-      const savedUser = await usersService.update(id, values);
+      const savedUser = await usersService.update(id, {
+        nome: values.nome,
+        email: values.email,
+      });
       updateUser(savedUser);
       notify.success('Perfil atualizado.');
     } catch (requestError) {
@@ -52,12 +56,15 @@ export default function Perfil() {
     }
   };
 
-  if (loading)
+  if (loading && !sessionUser?.name && !sessionUser?.nome) {
     return (
       <p role="status" className="py-12 text-center">
         Carregando perfil...
       </p>
     );
+  }
+
+  const roleLabel = currentUser?.role === 'admin' ? 'Administrador' : 'Usuário';
 
   return (
     <div className="mx-auto max-w-2xl space-y-5">
@@ -94,19 +101,11 @@ export default function Perfil() {
             {...register('email')}
           />
           <Input
-            id="telefone"
-            label="Telefone"
-            type="tel"
-            autoComplete="tel"
-            error={errors.telefone?.message}
-            {...register('telefone')}
-          />
-          <Input
-            id="tipo"
+            id="role"
             label="Perfil / função"
+            value={roleLabel}
             disabled
-            error={errors.tipo?.message}
-            {...register('tipo')}
+            readOnly
           />
           <div className="flex justify-end">
             <Button type="submit" loading={isSubmitting}>
