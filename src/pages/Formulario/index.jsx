@@ -5,17 +5,25 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import Input from '../../components/Input';
+import { useAuth } from '../../contexts/auth';
 import useUser from '../../hooks/useUser';
-import userSchema from '../../schemas/userSchema';
+import { createUserSchema, updateUserSchema } from '../../schemas/userSchema';
 import { usersService } from '../../services/users';
 import { getApiErrorMessage } from '../../services/errors';
 import { notify } from '../../services/notification';
 
-const emptyValues = { nome: '', email: '', telefone: '', tipo: '' };
+const emptyValues = {
+  nome: '',
+  email: '',
+  senha: '',
+  confirmarSenha: '',
+};
 
 export default function Formulario() {
   const { id } = useParams();
+  const isEditing = Boolean(id);
   const navigate = useNavigate();
+  const { user: sessionUser, updateUser: updateSessionUser } = useAuth();
   const { user, loading, error } = useUser(id);
   const {
     register,
@@ -23,26 +31,40 @@ export default function Formulario() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(userSchema),
+    resolver: zodResolver(isEditing ? updateUserSchema : createUserSchema),
     defaultValues: emptyValues,
   });
 
   useEffect(() => {
-    if (user) {
+    if (isEditing && user) {
       reset({
         nome: user.nome ?? user.name ?? '',
         email: user.email ?? '',
-        telefone: user.telefone ?? user.phone ?? '',
-        tipo: user.tipo ?? user.role ?? '',
       });
+    } else if (!isEditing) {
+      reset(emptyValues);
     }
-  }, [user, reset]);
+  }, [isEditing, user, reset]);
 
   const onSubmit = async (values) => {
     try {
-      if (id) await usersService.update(id, values);
-      else await usersService.create(values);
-      notify.success(id ? 'Usuário atualizado.' : 'Usuário cadastrado.');
+      if (isEditing) {
+        const savedUser = await usersService.update(id, {
+          nome: values.nome,
+          email: values.email,
+        });
+        if (sessionUser?.id === id) {
+          updateSessionUser(savedUser);
+        }
+        notify.success('Usuário atualizado.');
+      } else {
+        await usersService.create({
+          nome: values.nome,
+          email: values.email,
+          senha: values.senha,
+        });
+        notify.success('Usuário cadastrado.');
+      }
       navigate('/usuarios', { replace: true });
     } catch (requestError) {
       notify.error(
@@ -72,14 +94,18 @@ export default function Formulario() {
     );
   }
 
+  const roleLabel = user?.role === 'admin' ? 'Administrador' : 'Usuário';
+
   return (
     <div className="mx-auto max-w-2xl space-y-5">
       <header>
         <h1 className="text-2xl font-bold text-gray-900">
-          {id ? 'Editar usuário' : 'Novo usuário'}
+          {isEditing ? 'Editar usuário' : 'Novo usuário'}
         </h1>
         <p className="mt-1 text-sm text-gray-600">
-          Preencha as informações do cadastro.
+          {isEditing
+            ? 'Atualize as informações do cadastro.'
+            : 'Preencha os dados para cadastrar um novo usuário.'}
         </p>
       </header>
       <Card>
@@ -103,20 +129,34 @@ export default function Formulario() {
             error={errors.email?.message}
             {...register('email')}
           />
-          <Input
-            id="telefone"
-            label="Telefone"
-            type="tel"
-            autoComplete="tel"
-            error={errors.telefone?.message}
-            {...register('telefone')}
-          />
-          <Input
-            id="tipo"
-            label="Perfil / função"
-            error={errors.tipo?.message}
-            {...register('tipo')}
-          />
+          {isEditing ? (
+            <Input
+              id="role"
+              label="Perfil / função"
+              value={roleLabel}
+              disabled
+              readOnly
+            />
+          ) : (
+            <>
+              <Input
+                id="senha"
+                label="Senha"
+                type="password"
+                autoComplete="new-password"
+                error={errors.senha?.message}
+                {...register('senha')}
+              />
+              <Input
+                id="confirmarSenha"
+                label="Confirmar senha"
+                type="password"
+                autoComplete="new-password"
+                error={errors.confirmarSenha?.message}
+                {...register('confirmarSenha')}
+              />
+            </>
+          )}
           <div className="flex flex-wrap justify-end gap-3">
             <Link
               to="/usuarios"

@@ -3,26 +3,75 @@ const REFRESH_TOKEN_KEY = '@vet:refreshToken';
 const USER_KEY = '@vet:user';
 const SESSION_EVENT = 'cuidarvet:session';
 
+export function normalizeRole(role) {
+  if (typeof role !== 'string' || !role.trim()) {
+    return 'user';
+  }
+
+  const normalized = role.trim().toLowerCase();
+  if (normalized === 'admin' || normalized === 'user') {
+    return normalized;
+  }
+
+  if (import.meta.env.DEV) {
+    console.warn(`A API retornou um papel não esperado: "${role}".`);
+  }
+
+  return normalized;
+}
+
 export function normalizeUser(user) {
   if (!user || typeof user !== 'object') return null;
 
-  const normalizedUser = { ...user };
-  if (typeof normalizedUser.role !== 'string' || !normalizedUser.role.trim()) {
-    normalizedUser.role = 'user';
-    if (import.meta.env.DEV) {
-      console.warn(
-        'A API não retornou o papel do usuário; usando "user" temporariamente.'
-      );
-    }
-  } else if (!['admin', 'user'].includes(normalizedUser.role)) {
-    if (import.meta.env.DEV) {
-      console.warn(
-        `A API retornou um papel não esperado: "${normalizedUser.role}".`
-      );
-    }
+  const rest = { ...user };
+  delete rest.password;
+  delete rest.senha;
+
+  const displayName =
+    typeof rest.name === 'string' && rest.name.trim()
+      ? rest.name.trim()
+      : typeof rest.nome === 'string' && rest.nome.trim()
+        ? rest.nome.trim()
+        : '';
+
+  const normalizedUser = {
+    ...rest,
+    role: normalizeRole(rest.role ?? rest.tipo),
+  };
+
+  if (displayName) {
+    normalizedUser.name = displayName;
+    normalizedUser.nome = displayName;
   }
 
   return normalizedUser;
+}
+
+export function decodeTokenPayload(token) {
+  if (!token || typeof token !== 'string') return null;
+
+  try {
+    const payload = token.split('.')[1];
+    if (!payload) return null;
+    const normalized = payload.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(
+      atob(normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '='))
+    );
+  } catch {
+    return null;
+  }
+}
+
+export function getUserFromToken(token) {
+  const claims = decodeTokenPayload(token);
+  if (!claims) return null;
+
+  return normalizeUser({
+    id: claims.sub ?? claims.id,
+    email: claims.email,
+    name: claims.name ?? claims.nome,
+    role: claims.role,
+  });
 }
 
 function emitSessionChange() {
@@ -62,9 +111,22 @@ export function saveSession({ token, refreshToken, user }) {
   } else {
     localStorage.removeItem(REFRESH_TOKEN_KEY);
   }
-  if (user) localStorage.setItem(USER_KEY, JSON.stringify(normalizeUser(user)));
-  else if (user === null) localStorage.removeItem(USER_KEY);
+
+  if (user) {
+    localStorage.setItem(USER_KEY, JSON.stringify(normalizeUser(user)));
+  } else if (user === null) {
+    localStorage.removeItem(USER_KEY);
+  }
+
   emitSessionChange();
+}
+
+export function saveStoredUser(user) {
+  if (!user) return null;
+  const normalized = normalizeUser(user);
+  localStorage.setItem(USER_KEY, JSON.stringify(normalized));
+  emitSessionChange();
+  return normalized;
 }
 
 export function clearSession() {
@@ -75,19 +137,8 @@ export function clearSession() {
 }
 
 export function getTokenExpiry(token) {
-  if (!token) return null;
-
-  try {
-    const payload = token.split('.')[1];
-    if (!payload) return null;
-    const normalized = payload.replace(/-/g, '+').replace(/_/g, '/');
-    const claims = JSON.parse(
-      atob(normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '='))
-    );
-    return Number.isFinite(claims.exp) ? claims.exp * 1000 : null;
-  } catch {
-    return null;
-  }
+  const claims = decodeTokenPayload(token);
+  return Number.isFinite(claims?.exp) ? claims.exp * 1000 : null;
 }
 
 export function subscribeToSessionChange(callback) {

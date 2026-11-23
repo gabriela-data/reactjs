@@ -1,12 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import { notify } from '../services/notification';
-import { login as loginRequest, refreshAuthSession } from '../services/auth';
+import {
+  fetchCurrentUser,
+  login as loginRequest,
+  refreshAuthSession,
+} from '../services/auth';
 import {
   clearSession,
+  getStoredRefreshToken,
   getStoredToken,
   getStoredUser,
   getTokenExpiry,
-  normalizeUser,
+  saveStoredUser,
   subscribeToSessionChange,
 } from '../utils/authStorage';
 import { AuthContext } from './auth';
@@ -34,30 +39,45 @@ export function AuthProvider({ children }) {
 
   const updateUser = (nextUser) => {
     if (!nextUser) return;
-    localStorage.setItem(
-      '@vet:user',
-      JSON.stringify(
-        normalizeUser({
-          ...user,
-          ...nextUser,
-          role: nextUser.role ?? user?.role ?? 'user',
-        })
-      )
-    );
-    syncSession();
+    saveStoredUser({
+      ...user,
+      ...nextUser,
+      role: nextUser.role ?? user?.role ?? 'user',
+    });
   };
+
+  useEffect(() => {
+    if (!token) return undefined;
+
+    const expiresAt = getTokenExpiry(token);
+    if (expiresAt && expiresAt <= Date.now()) {
+      return undefined;
+    }
+
+    const controller = new AbortController();
+    fetchCurrentUser({ signal: controller.signal }).catch(() => {
+      // Erros 401 são tratados pelo interceptor; cancelamentos e falhas de rede mantêm o cache local.
+    });
+
+    return () => controller.abort();
+  }, [token]);
 
   useEffect(() => {
     const expiresAt = getTokenExpiry(token);
     if (!token || !expiresAt) return undefined;
 
     const handleExpiry = async () => {
-      try {
-        await refreshAuthSession();
-      } catch {
-        logout();
-        notify.warning('Sua sessão expirou. Entre novamente.');
+      if (getStoredRefreshToken()) {
+        try {
+          await refreshAuthSession();
+          return;
+        } catch {
+          // Segue para encerrar a sessão caso o refresh falhe.
+        }
       }
+
+      logout();
+      notify.warning('Sua sessão expirou. Entre novamente.');
     };
 
     const delay = expiresAt - Date.now();
