@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
@@ -7,15 +7,19 @@ import DataTable from '../../components/DataTable';
 import Input from '../../components/Input';
 import Modal from '../../components/Modal';
 import Pagination from '../../components/Pagination';
+import { useAuth } from '../../contexts/auth';
 import usePagination from '../../hooks/usePagination';
 import useUsers from '../../hooks/useUsers';
 import { getApiErrorMessage } from '../../services/errors';
 import { notify } from '../../services/notification';
 
 export default function ListagemUsuarios() {
+  const { user: currentUser, logout } = useAuth();
+  const navigate = useNavigate();
   const { page, pageSize, setPage, setPageSize } = usePagination();
   const [search, setSearch] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const { users, total, loading, error, refresh, deleteUser } = useUsers({
     page,
     pageSize,
@@ -23,21 +27,31 @@ export default function ListagemUsuarios() {
   });
 
   useEffect(() => {
-    if (error)
+    if (error) {
       notify.error(
         getApiErrorMessage(error, 'Não foi possível carregar os usuários.')
       );
+    }
   }, [error]);
 
   const handleDelete = async () => {
+    if (!selectedUser) return;
+    const targetId = selectedUser.id ?? selectedUser._id;
+    setIsDeleting(true);
     try {
-      await deleteUser(selectedUser.id ?? selectedUser._id);
+      await deleteUser(targetId);
       notify.success('Usuário removido.');
       setSelectedUser(null);
-    } catch (error) {
+      if (targetId && targetId === currentUser?.id) {
+        logout();
+        navigate('/login', { replace: true });
+      }
+    } catch (requestError) {
       notify.error(
-        getApiErrorMessage(error, 'Não foi possível remover o usuário.')
+        getApiErrorMessage(requestError, 'Não foi possível remover o usuário.')
       );
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -46,14 +60,30 @@ export default function ListagemUsuarios() {
       key: 'nome',
       header: 'Nome',
       sortable: true,
+      sortValue: (row) => row.nome ?? row.name ?? '',
       render: (_, row) => row.nome ?? row.name ?? '—',
     },
     { key: 'email', header: 'E-mail', sortable: true },
     {
-      key: 'tipo',
+      key: 'role',
       header: 'Perfil',
       sortable: true,
-      render: (_, row) => row.tipo ?? row.role ?? '—',
+      sortValue: (row) =>
+        row.role === 'admin' ? 'Administrador' : 'Usuário',
+      render: (_, row) => {
+        const isAdminRole = row.role === 'admin';
+        return (
+          <span
+            className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
+              isAdminRole
+                ? 'bg-primary/10 text-primary'
+                : 'bg-gray-100 text-gray-700'
+            }`}
+          >
+            {isAdminRole ? 'Administrador' : 'Usuário'}
+          </span>
+        );
+      },
     },
     {
       key: 'actions',
@@ -106,7 +136,7 @@ export default function ListagemUsuarios() {
           <Input
             id="search-users"
             aria-label="Buscar usuários"
-            placeholder="Buscar por nome ou e-mail"
+            placeholder="Buscar por nome, e-mail ou perfil"
             icon={Search}
             value={search}
             onChange={(event) => {
@@ -144,23 +174,30 @@ export default function ListagemUsuarios() {
       </Card>
       <Modal
         isOpen={Boolean(selectedUser)}
-        onClose={() => setSelectedUser(null)}
+        onClose={() => !isDeleting && setSelectedUser(null)}
         title="Excluir usuário"
         description={`Deseja realmente excluir ${selectedUser?.nome ?? selectedUser?.name ?? 'este usuário'}? Esta ação não pode ser desfeita.`}
         footer={
           <>
-            <Button variant="secondary" onClick={() => setSelectedUser(null)}>
+            <Button
+              variant="secondary"
+              disabled={isDeleting}
+              onClick={() => setSelectedUser(null)}
+            >
               Cancelar
             </Button>
-            <Button variant="danger" onClick={handleDelete}>
+            <Button
+              variant="danger"
+              loading={isDeleting}
+              onClick={handleDelete}
+            >
               Excluir
             </Button>
           </>
         }
       >
         <p className="text-sm text-gray-600">
-          A exclusão será enviada à API e pode depender das permissões da sua
-          conta.
+          O usuário será removido permanentemente do sistema.
         </p>
       </Modal>
     </div>

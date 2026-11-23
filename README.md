@@ -192,31 +192,28 @@ npm ci
 
 ## Integração com o Backend
 
-Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js**.
+Este frontend consome a API REST desenvolvida pelo **grupo de backend em Node.js (NestJS)**.
 
 - **Repositório do Backend:** [github.com/vitormsantos1/React.Node-backend](https://github.com/vitormsantos1/React.Node-backend)
-- **URL base da API (dev):** `http://localhost:3000/api`
-- **Documentação da API:** [Swagger/Postman](https://link-da-doc)
+- **URL base da API (produção / Render):** `https://vet-7uu3.onrender.com`
+- **URL base da API (local):** `http://localhost:3002`
+- **Documentação da API (Swagger):** [https://vet-7uu3.onrender.com/docs](https://vet-7uu3.onrender.com/docs)
 
-### Endpoints principais consumidos
+### Endpoints consumidos
 
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| `POST` | `/auth/login` | Autenticação de usuário |
-| `POST` | `/auth/register` | Cadastro de novo usuário |
-| `POST` | `/auth/forgot-password` | Solicitar recuperação de senha |
-| `POST` | `/auth/refresh` | Renovar o token de acesso |
-| `POST` | `/usuarios` | Criar usuário |
-| `GET` | `/usuarios` | Listar usuários |
-| `GET` | `/usuarios/:id` | Buscar usuário por ID |
-| `PUT` | `/usuarios/:id` | Atualizar usuário |
-| `DELETE` | `/usuarios/:id` | Remover usuário |
+| Método | Endpoint | Payload / Resposta | Descrição |
+|--------|----------|--------------------|-----------|
+| `POST` | `/auth/login` | `{ email, password }` → `{ access_token }` | Autenticação de usuário |
+| `POST` | `/auth/forgot-password` | `{ email }` → `{ message }` | Solicitar código de recuperação de senha |
+| `POST` | `/auth/reset-password` | `{ token, password }` → `{ message }` | Redefinir senha usando o código |
+| `GET` | `/users/me` | Bearer JWT → `{ id, name?, email, role }` | Dados do usuário autenticado |
+| `POST` | `/users` | `{ name, email, password }` → `ResponseUserDto` | Criar novo usuário (cadastro público ou admin) |
+| `GET` | `/users` | Bearer JWT (`ADMIN`) → `ResponseUserDto[]` | Listar usuários (busca e paginação no cliente) |
+| `GET` | `/users/:id` | Bearer JWT (próprio usuário ou `ADMIN`) | Buscar usuário por ID |
+| `PATCH` | `/users/:id` | `{ name?, email? }` | Atualizar dados do usuário |
+| `DELETE` | `/users/:id` | Bearer JWT (próprio usuário ou `ADMIN`) | Remover usuário |
 
-> **Importante:** O backend precisa estar em execução localmente para que o frontend funcione corretamente em ambiente de desenvolvimento.
-
-O frontend envia `email` e `senha` para o login; o cadastro envia `nome`, `email` e `senha`. A listagem envia os parâmetros `page`, `limit` e `search`, e aceita uma lista simples ou uma resposta paginada com `usuarios`, `users`, `items` ou `data` e o total correspondente.
-
-> **Contrato a confirmar com o grupo de backend:** os endpoints `/auth/forgot-password` e `/auth/refresh`, os nomes dos campos, a forma de devolver o usuário/token e os parâmetros de paginação não constavam na documentação disponível quando este frontend foi implementado. Ajuste `src/services/auth.js`, `src/services/api.js` e `src/services/users.js` se o backend usar outro contrato. A tela de configurações salva preferências somente no navegador; não pressupõe endpoint de configurações.
+> **Observação:** Os papéis retornados pelo backend (`ADMIN` / `USER`) são normalizados no frontend para `admin` / `user`. A tela de configurações salva preferências somente no navegador.
 
 ---
 
@@ -261,7 +258,7 @@ Antes de começar, você precisa ter instalado em sua máquina:
 Crie um arquivo `.env` na raiz do projeto com base no exemplo:
 
 ```env
-VITE_API_URL=http://localhost:3000/api
+VITE_API_URL=https://vet-7uu3.onrender.com
 VITE_APP_NAME=CuidarVet
 ```
 

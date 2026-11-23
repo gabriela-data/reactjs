@@ -1,13 +1,19 @@
 import api from './api';
+import { normalizeUser } from '../utils/authStorage';
 
 export function normalizeUsersResponse(data, responseHeaders = {}) {
+  const isFlatArray = Array.isArray(data);
   const body = data?.data && !Array.isArray(data.data) ? data.data : data;
-  const rows = Array.isArray(body)
-    ? body
+  const rawRows = isFlatArray
+    ? data
     : (body?.usuarios ?? body?.users ?? body?.items ?? body?.data ?? []);
+  const users = Array.isArray(rawRows)
+    ? rawRows.map((item) => normalizeUser(item)).filter(Boolean)
+    : [];
+
   const pagination = body?.pagination ?? body?.paginacao ?? {};
   const headerTotal = Number(responseHeaders['x-total-count']);
-  const total = Number(
+  const explicitTotal = Number(
     body?.total ??
       body?.totalItems ??
       body?.totalUsuarios ??
@@ -15,40 +21,55 @@ export function normalizeUsersResponse(data, responseHeaders = {}) {
       data?.total
   );
 
+  const serverPaginated =
+    !isFlatArray && (Number.isFinite(explicitTotal) || Number.isFinite(headerTotal));
+
   return {
-    users: Array.isArray(rows) ? rows : [],
-    total: Number.isFinite(total)
-      ? total
+    users,
+    total: Number.isFinite(explicitTotal)
+      ? explicitTotal
       : Number.isFinite(headerTotal)
         ? headerTotal
-        : Array.isArray(rows)
-          ? rows.length
-          : 0,
+        : users.length,
+    serverPaginated,
   };
 }
 
 export const usersService = {
-  async list(params = {}, config = {}) {
-    const response = await api.get('/usuarios', { ...config, params });
+  async list(config = {}) {
+    const response = await api.get('/users', config);
     return normalizeUsersResponse(response.data, response.headers);
   },
 
   async getById(id, config = {}) {
-    const { data } = await api.get(`/usuarios/${id}`, config);
-    return data?.usuario ?? data?.user ?? data?.data ?? data;
+    const { data } = await api.get(`/users/${id}`, config);
+    return normalizeUser(data?.usuario ?? data?.user ?? data?.data ?? data);
   },
 
   async create(user) {
-    const { data } = await api.post('/usuarios', user);
-    return data?.usuario ?? data?.user ?? data;
+    const payload = {
+      name: (user.name ?? user.nome ?? '').trim(),
+      email: (user.email ?? '').trim(),
+      password: user.password ?? user.senha,
+    };
+    const { data } = await api.post('/users', payload);
+    return normalizeUser(data?.usuario ?? data?.user ?? data);
   },
 
   async update(id, user) {
-    const { data } = await api.put(`/usuarios/${id}`, user);
-    return data?.usuario ?? data?.user ?? data;
+    const payload = {};
+    const nextName = (user.name ?? user.nome)?.trim();
+    const nextEmail = user.email?.trim();
+
+    if (nextName) payload.name = nextName;
+    if (nextEmail) payload.email = nextEmail;
+
+    const { data } = await api.patch(`/users/${id}`, payload);
+    return normalizeUser(data?.usuario ?? data?.user ?? data);
   },
 
   async remove(id) {
-    return api.delete(`/usuarios/${id}`);
+    const { data } = await api.delete(`/users/${id}`);
+    return data;
   },
 };
