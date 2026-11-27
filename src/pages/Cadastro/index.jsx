@@ -8,18 +8,22 @@ import { register as registerUser } from '../../services/auth';
 import { getApiErrorMessage } from '../../services/errors';
 import { notify } from '../../services/notification';
 import registerSchema from '../../schemas/registerSchema';
+import PasswordStrength from '../../components/PasswordStrength';
 
 export default function Cadastro() {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: { nome: '', email: '', senha: '', confirmarSenha: '' },
   });
 
+  const senha = watch('senha');
+  
   const onSubmit = async (values) => {
     const user = {
       nome: values.nome,
@@ -72,6 +76,8 @@ export default function Cadastro() {
           autoComplete="new-password"
           error={errors.senha?.message}
           {...register('senha')}
+        />
+        <PasswordStrength password={senha} 
         />
         <Input
           id="confirmarSenha"
