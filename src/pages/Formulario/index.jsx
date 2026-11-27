@@ -11,6 +11,7 @@ import { createUserSchema, updateUserSchema } from '../../schemas/userSchema';
 import { usersService } from '../../services/users';
 import { getApiErrorMessage } from '../../services/errors';
 import { notify } from '../../services/notification';
+import PasswordStrength from '../../components/PasswordStrength';
 
 const emptyValues = {
   nome: '',
@@ -28,12 +29,15 @@ export default function Formulario() {
   const {
     register,
     handleSubmit,
+    watch,
     reset,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(isEditing ? updateUserSchema : createUserSchema),
     defaultValues: emptyValues,
   });
+
+  const senha = watch('senha');
 
   useEffect(() => {
     if (isEditing && user) {
@@ -147,6 +151,8 @@ export default function Formulario() {
                 autoComplete="new-password"
                 error={errors.senha?.message}
                 {...register('senha')}
+              />
+              <PasswordStrength password={senha} 
               />
               <Input
                 id="confirmarSenha"
