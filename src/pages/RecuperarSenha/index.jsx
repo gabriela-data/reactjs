@@ -9,6 +9,7 @@ import Input from '../../components/Input';
 import { requestPasswordReset, resetPassword } from '../../services/auth';
 import { getApiErrorMessage } from '../../services/errors';
 import { notify } from '../../services/notification';
+import PasswordStrength from '../../components/PasswordStrength';
 
 const requestSchema = z.object({
   email: z.string().trim().email('Informe um e-mail válido'),
@@ -39,6 +40,8 @@ export default function RecuperarSenha() {
     resolver: zodResolver(resetSchema),
     defaultValues: { token: '', senha: '', confirmarSenha: '' },
   });
+
+  const senha = resetForm.watch('senha');
 
   const handleRequestSubmit = async ({ email }) => {
     try {
@@ -151,6 +154,8 @@ export default function RecuperarSenha() {
             autoComplete="new-password"
             error={resetForm.formState.errors.senha?.message}
             {...resetForm.register('senha')}
+          />
+          <PasswordStrength password={senha} 
           />
           <Input
             id="confirmarSenha"
